@@ -4,7 +4,8 @@ import { useUser } from '../auth/AuthProvider.tsx';
 import { auth } from '../firebase.ts';
 import { averageRating, displayName, useWines, type Wine } from '../data/wines.ts';
 import { drinkStatus } from '../lib/drink.ts';
-import { openAddMenu } from '../lib/pendingPhotos.ts';
+import { Link } from 'react-router';
+import { PickPhotosButton } from '../ui/PickPhotosButton.tsx';
 import { WineCard } from '../ui/WineCard.tsx';
 
 type Sort = 'newest' | 'drink' | 'rating' | 'vintage' | 'fit';
@@ -146,9 +147,12 @@ export function WineListPage({ list }: { list: 'cellar' | 'wishlist' }) {
             ) : (
               <>
                 <p className="mb-4">{list === 'cellar' ? 'Your cellar is empty.' : 'Nothing on the wishlist yet.'}</p>
-                <button type="button" onClick={openAddMenu} className="rounded-full bg-wine-800 px-5 py-2.5 font-medium text-white">
+                <PickPhotosButton list={list} className="rounded-full bg-wine-800 px-5 py-2.5 font-medium text-white">
                   Add a bottle
-                </button>
+                </PickPhotosButton>
+                <Link to={`/add?list=${list}&manual=1`} className="mt-4 block text-sm text-wine-700 underline">
+                  or add one manually
+                </Link>
               </>
             )}
           </div>

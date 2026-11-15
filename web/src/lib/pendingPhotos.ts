@@ -11,9 +11,3 @@ export function takePendingPhotos(): File[] {
   pending = [];
   return files;
 }
-
-/** Lets any screen (e.g. an empty list) open the add menu that lives in the tab bar. */
-export const OPEN_ADD_MENU = 'cellar:open-add-menu';
-export function openAddMenu() {
-  window.dispatchEvent(new Event(OPEN_ADD_MENU));
-}

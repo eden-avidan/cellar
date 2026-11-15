@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
+import { Link, useNavigate, useSearchParams } from 'react-router';
 import { useUser } from '../auth/AuthProvider.tsx';
 import { createWine, displayName, emptyWine, updateWine, useWines, type Wine, type WineFields } from '../data/wines.ts';
 import { analysisToFields, analyzeLabel, callableErrorMessage, ratedWines, type AnalyzeResult } from '../lib/analysis.ts';
@@ -36,8 +36,7 @@ export function AddWinePage() {
   const analysis = result?.analysis ?? null;
   const [fields, setFields] = useState<WineFields>(() => emptyWine(list));
   const [saving, setSaving] = useState(false);
-  const cameraInput = useRef<HTMLInputElement>(null);
-  const libraryInput = useRef<HTMLInputElement>(null);
+  const photoInput = useRef<HTMLInputElement>(null);
 
   // Free the preview images when leaving the page (not on every change: those previews are still on screen).
   const photosRef = useRef(photos);
@@ -154,30 +153,19 @@ export function AddWinePage() {
 
         {step === 'capture' && (
           <div className="mt-5 flex flex-col gap-3">
-            <input ref={cameraInput} type="file" accept="image/*" capture="environment" hidden onChange={(e) => { void addFiles(e.target.files); e.target.value = ''; }} />
-            <input ref={libraryInput} type="file" accept="image/*" multiple hidden onChange={(e) => { void addFiles(e.target.files); e.target.value = ''; }} />
+            {/* No `capture`: the phone shows its own menu (Photo Library / Take Photo / Choose File). */}
+            <input ref={photoInput} type="file" accept="image/*" multiple hidden onChange={(e) => { void addFiles(e.target.files); e.target.value = ''; }} />
 
             {photos.length < MAX_PHOTOS && (
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  disabled={preparing}
-                  onClick={() => cameraInput.current?.click()}
-                  className="flex flex-col items-center gap-2 rounded-2xl bg-white py-6 font-medium ring-1 ring-ink-200 active:bg-cream-50 disabled:opacity-50"
-                >
-                  <span className="text-3xl">📷</span>
-                  {photos.length === 0 ? 'Take photo' : 'Add back label'}
-                </button>
-                <button
-                  type="button"
-                  disabled={preparing}
-                  onClick={() => libraryInput.current?.click()}
-                  className="flex flex-col items-center gap-2 rounded-2xl bg-white py-6 font-medium ring-1 ring-ink-200 active:bg-cream-50 disabled:opacity-50"
-                >
-                  <span className="text-3xl">🖼️</span>
-                  From photos
-                </button>
-              </div>
+              <button
+                type="button"
+                disabled={preparing}
+                onClick={() => photoInput.current?.click()}
+                className="flex items-center justify-center gap-3 rounded-2xl bg-white py-5 font-medium ring-1 ring-ink-200 active:bg-cream-50 disabled:opacity-50"
+              >
+                <span className="text-2xl">📷</span>
+                {photos.length === 0 ? 'Add a photo of the label' : 'Add another photo (e.g. back label)'}
+              </button>
             )}
             <p className="text-center text-sm text-ink-500">
               {preparing
@@ -199,6 +187,20 @@ export function AddWinePage() {
 
         {step === 'review' && (
           <div className="mt-4 flex flex-col gap-3">
+            {!analysis && (
+              <Link
+                to={`/add/previous?list=${list}`}
+                replace
+                className="flex items-center gap-3 rounded-2xl bg-wine-50 px-4 py-3 text-sm active:bg-wine-100"
+              >
+                <span className="text-2xl">🍷</span>
+                <span className="flex-1">
+                  <span className="block font-semibold text-wine-900">Had this wine before?</span>
+                  <span className="text-ink-700">Pick it from your wines instead of typing it in.</span>
+                </span>
+                <span className="text-wine-800">›</span>
+              </Link>
+            )}
             {analysis && !analysis.is_wine_label && (
               <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">This doesn't look like a wine label. {analysis.notes}</p>
             )}
