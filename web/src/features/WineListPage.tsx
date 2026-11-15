@@ -16,13 +16,25 @@ type TypeFilter = (typeof TYPE_FILTERS)[number];
 
 const MAIN_TYPES = ['red', 'white', 'rosé', 'sparkling'];
 
-function lastGoodYear(w: Wine) {
-  return Math.min(w.drinkUntil ?? Infinity, w.expiresYear ?? Infinity);
+const STATUS_RANK: Record<string, number> = { past: 0, soon: 1, peak: 2, ready: 3, hold: 4 };
+const NONE = 9999; // wines with no window at all go last
+
+/**
+ * "Drink soonest": by the year it's best to have opened it — the end of its peak when known,
+ * otherwise the end of its drinking window, otherwise its expiry. Ties: past its best, then
+ * drink-now, then at its peak, then ready, then hold; then the end of the drinking window.
+ */
+function drinkSoonestKey(w: Wine): [number, number, number] {
+  const bestBy = w.peakTo ?? w.drinkUntil ?? w.expiresYear ?? NONE;
+  const rank = STATUS_RANK[drinkStatus(w)?.tone ?? ''] ?? 5;
+  const lastGood = Math.min(w.drinkUntil ?? NONE, w.expiresYear ?? NONE);
+  return [bestBy, rank, lastGood];
 }
+const byKeys = (a: number[], b: number[]) => a.reduce((d, x, i) => d || x - b[i], 0);
 
 const sorters: Record<Sort, (a: Wine, b: Wine) => number> = {
   newest: () => 0, // the query already returns newest first
-  drink: (a, b) => lastGoodYear(a) - lastGoodYear(b),
+  drink: (a, b) => byKeys(drinkSoonestKey(a), drinkSoonestKey(b)),
   rating: (a, b) => (averageRating(b) ?? -1) - (averageRating(a) ?? -1),
   vintage: (a, b) => (b.vintage ?? 0) - (a.vintage ?? 0),
   fit: (a, b) => (b.tasteFitScore ?? -1) - (a.tasteFitScore ?? -1),
@@ -171,6 +183,7 @@ export function WineListPage({ list }: { list: 'cellar' | 'wishlist' }) {
           <WineCard key={w.id} wine={w} />
         ))}
       </section>
+      <p className="mt-8 text-center text-[11px] text-ink-300">Version {__BUILD__}</p>
     </main>
   );
 }
