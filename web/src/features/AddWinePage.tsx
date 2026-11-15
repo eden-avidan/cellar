@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { useUser } from '../auth/AuthProvider.tsx';
 import { createWine, displayName, emptyWine, updateWine, useWines, type Wine, type WineFields } from '../data/wines.ts';
 import { analysisToFields, analyzeLabel, callableErrorMessage, ratedWines, type AnalyzeResult } from '../lib/analysis.ts';
-import { preparePhoto, type PreparedPhoto } from '../lib/images.ts';
+import { preparePhotos, type PreparedPhoto } from '../lib/images.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
 import { WineForm } from './WineForm.tsx';
 
@@ -48,7 +48,7 @@ export function AddWinePage() {
     setError(null);
     try {
       const room = MAX_PHOTOS - photos.length;
-      const prepared = await Promise.all([...files].slice(0, room).map(preparePhoto));
+      const prepared = await preparePhotos([...files].slice(0, room));
       setPhotos((p) => [...p, ...prepared]);
     } catch {
       setError("Couldn't open that photo. Try another one.");
@@ -83,6 +83,10 @@ export function AddWinePage() {
   };
 
   const save = async () => {
+    if (photos.length > 0 && !navigator.onLine) {
+      setError("You're offline. Photos need a connection to upload. Try again with signal, or remove the photos to save the details now.");
+      return;
+    }
     setSaving(true);
     setError(null);
     try {

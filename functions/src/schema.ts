@@ -6,7 +6,7 @@ const str = { type: 'string' };
 const int = { type: 'integer' };
 const num = { type: 'number' };
 const strList = { type: 'array', items: str };
-const level = { type: 'string', enum: ['low', 'medium', 'high'] };
+const LEVELS = ['low', 'medium', 'high'] as const;
 
 function obj(properties: Record<string, object>) {
   return { type: 'object', properties, required: Object.keys(properties), additionalProperties: false };
@@ -14,37 +14,39 @@ function obj(properties: Record<string, object>) {
 
 export const WINE_TYPES = ['red', 'white', 'rosé', 'sparkling', 'dessert', 'fortified', 'orange'] as const;
 
+// Structured outputs allow at most 16 union-typed (anyOf) fields per request, so text and enum
+// fields use "" for "unknown" and only numbers/objects that can be absent are nullable (10 unions).
+const enumOrEmpty = (values: readonly string[]) => ({ type: 'string', enum: [...values, ''] });
+
 export const wineAnalysisSchema = obj({
   is_wine_label: { type: 'boolean', description: 'False if the photos do not show a wine bottle or label.' },
   label: obj({
-    producer: nullable(str),
-    wine_name: nullable(str),
+    producer: str,
+    wine_name: str,
     vintage: nullable(int),
-    country: nullable(str),
-    region: nullable(str),
-    appellation: nullable(str),
-    classification: nullable({ ...str, description: 'E.g. Reserve, Grand Cru, DOCG, Gran Reserva.' }),
-    wine_type: nullable({ type: 'string', enum: [...WINE_TYPES] }),
+    country: str,
+    region: str,
+    appellation: str,
+    classification: { ...str, description: 'E.g. Reserve, Grand Cru, DOCG, Gran Reserva. Empty if none.' },
+    wine_type: enumOrEmpty(WINE_TYPES),
     grape_varieties: strList,
     alcohol_percent: nullable(num),
     bottle_size_ml: nullable(int),
   }),
   profile: obj({
-    body: nullable({ type: 'string', enum: ['light', 'medium', 'full'] }),
-    sweetness: nullable({ type: 'string', enum: ['dry', 'off-dry', 'medium-sweet', 'sweet'] }),
-    acidity: nullable(level),
-    tannin: nullable(level),
+    body: enumOrEmpty(['light', 'medium', 'full']),
+    sweetness: enumOrEmpty(['dry', 'off-dry', 'medium-sweet', 'sweet']),
+    acidity: enumOrEmpty(LEVELS),
+    tannin: enumOrEmpty(LEVELS),
     tasting_notes: strList,
     food_pairings: strList,
     serving_temperature_c: nullable(obj({ min: num, max: num })),
     decant_minutes: nullable(int),
-    best_time_to_open: nullable(
-      obj({
-        from_year: nullable(int),
-        to_year: nullable(int),
-        note: { ...str, description: 'One short sentence, e.g. "Peak drinking 2027-2031; fine now after decanting."' },
-      }),
-    ),
+    best_time_to_open: obj({
+      from_year: nullable(int),
+      to_year: nullable(int),
+      note: { ...str, description: 'One short sentence, e.g. "Peak drinking 2027-2031; fine now after decanting." Empty if unknown.' },
+    }),
     expires_at: nullable(
       obj({
         year: int,
@@ -63,33 +65,33 @@ export const wineAnalysisSchema = obj({
   notes: { ...str, description: 'What was unreadable or uncertain. Empty string if nothing.' },
 });
 
-type Level = 'low' | 'medium' | 'high';
+type Level = (typeof LEVELS)[number] | '';
 
 export interface WineAnalysis {
   is_wine_label: boolean;
   label: {
-    producer: string | null;
-    wine_name: string | null;
+    producer: string;
+    wine_name: string;
     vintage: number | null;
-    country: string | null;
-    region: string | null;
-    appellation: string | null;
-    classification: string | null;
-    wine_type: (typeof WINE_TYPES)[number] | null;
+    country: string;
+    region: string;
+    appellation: string;
+    classification: string;
+    wine_type: (typeof WINE_TYPES)[number] | '';
     grape_varieties: string[];
     alcohol_percent: number | null;
     bottle_size_ml: number | null;
   };
   profile: {
-    body: 'light' | 'medium' | 'full' | null;
-    sweetness: 'dry' | 'off-dry' | 'medium-sweet' | 'sweet' | null;
-    acidity: Level | null;
-    tannin: Level | null;
+    body: 'light' | 'medium' | 'full' | '';
+    sweetness: 'dry' | 'off-dry' | 'medium-sweet' | 'sweet' | '';
+    acidity: Level;
+    tannin: Level;
     tasting_notes: string[];
     food_pairings: string[];
     serving_temperature_c: { min: number; max: number } | null;
     decant_minutes: number | null;
-    best_time_to_open: { from_year: number | null; to_year: number | null; note: string } | null;
+    best_time_to_open: { from_year: number | null; to_year: number | null; note: string };
     expires_at: { year: number; source: 'label' | 'estimate' } | null;
     typical_price_ils: number | null;
   };
@@ -106,12 +108,18 @@ export function sanitize(a: WineAnalysis): WineAnalysis {
   l.vintage = l.vintage != null && l.vintage >= 1800 && l.vintage <= year + 1 ? l.vintage : null;
   if (l.alcohol_percent != null && (l.alcohol_percent < 3 || l.alcohol_percent > 25)) l.alcohol_percent = null;
   const p = a.profile;
-  if (p.best_time_to_open) {
-    p.best_time_to_open.from_year = okYear(p.best_time_to_open.from_year);
-    p.best_time_to_open.to_year = okYear(p.best_time_to_open.to_year);
-  }
+  const w = p.best_time_to_open;
+  w.from_year = okYear(w.from_year);
+  w.to_year = okYear(w.to_year);
+  if (w.from_year != null && w.to_year != null && w.from_year > w.to_year) [w.from_year, w.to_year] = [w.to_year, w.from_year];
+  if (w.from_year != null && l.vintage != null && w.from_year < l.vintage) w.from_year = l.vintage;
   if (p.expires_at && okYear(p.expires_at.year) == null) p.expires_at = null;
+  // expires_at is the end of drinkability, so never before the end of the peak window.
+  if (p.expires_at && w.to_year != null && p.expires_at.year < w.to_year) p.expires_at.year = w.to_year;
+  const t = p.serving_temperature_c;
+  if (t && t.min > t.max) [t.min, t.max] = [t.max, t.min];
   if (p.decant_minutes != null && (p.decant_minutes < 0 || p.decant_minutes > 600)) p.decant_minutes = null;
+  if (p.typical_price_ils != null && p.typical_price_ils <= 0) p.typical_price_ils = null;
   if (a.taste_fit) a.taste_fit.score = Math.min(5, Math.max(1, Math.round(a.taste_fit.score)));
   return a;
 }

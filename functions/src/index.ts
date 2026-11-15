@@ -16,7 +16,7 @@ const CLAUDE_MODEL = defineString('CLAUDE_MODEL', { default: 'claude-opus-5-5' }
 const CLAUDE_EFFORT = defineString('CLAUDE_EFFORT', { default: 'low' });
 
 export const analyzeLabel = onCall(
-  { secrets: [ANTHROPIC_API_KEY], timeoutSeconds: 120, memory: '512MiB' },
+  { secrets: [ANTHROPIC_API_KEY], timeoutSeconds: 240, memory: '512MiB' },
   async (request): Promise<AnalyzeResponse> => {
     checkCaller(request.auth, ALLOWED_EMAILS.value());
     const req = parseRequest(request.data);

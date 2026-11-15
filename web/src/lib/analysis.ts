@@ -2,33 +2,34 @@ import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase.ts';
 import { averageRating, displayName, emptyWine, type Wine, type WineFields, type WineList, type WineType } from '../data/wines.ts';
 
-// Mirror of functions/src/schema.ts.
-type Level = 'low' | 'medium' | 'high';
+// Mirror of functions/src/schema.ts. Text and choice fields use '' for unknown (keeps the
+// schema under the API's limit on nullable fields); numbers and optional objects use null.
+type Level = 'low' | 'medium' | 'high' | '';
 export interface WineAnalysis {
   is_wine_label: boolean;
   label: {
-    producer: string | null;
-    wine_name: string | null;
+    producer: string;
+    wine_name: string;
     vintage: number | null;
-    country: string | null;
-    region: string | null;
-    appellation: string | null;
-    classification: string | null;
-    wine_type: WineType | null;
+    country: string;
+    region: string;
+    appellation: string;
+    classification: string;
+    wine_type: WineType | '';
     grape_varieties: string[];
     alcohol_percent: number | null;
     bottle_size_ml: number | null;
   };
   profile: {
-    body: 'light' | 'medium' | 'full' | null;
-    sweetness: 'dry' | 'off-dry' | 'medium-sweet' | 'sweet' | null;
-    acidity: Level | null;
-    tannin: Level | null;
+    body: 'light' | 'medium' | 'full' | '';
+    sweetness: 'dry' | 'off-dry' | 'medium-sweet' | 'sweet' | '';
+    acidity: Level;
+    tannin: Level;
     tasting_notes: string[];
     food_pairings: string[];
     serving_temperature_c: { min: number; max: number } | null;
     decant_minutes: number | null;
-    best_time_to_open: { from_year: number | null; to_year: number | null; note: string } | null;
+    best_time_to_open: { from_year: number | null; to_year: number | null; note: string };
     expires_at: { year: number; source: 'label' | 'estimate' } | null;
     typical_price_ils: number | null;
   };
@@ -68,7 +69,7 @@ export interface AnalyzeResult {
   ms: number;
 }
 
-const analyzeCallable = httpsCallable<AnalyzeIn, AnalyzeResult>(functions, 'analyzeLabel', { timeout: 130_000 });
+const analyzeCallable = httpsCallable<AnalyzeIn, AnalyzeResult>(functions, 'analyzeLabel', { timeout: 250_000 });
 
 export async function analyzeLabel(list: 'cellar' | 'wishlist', base64Photos: string[], rated: RatedWine[]) {
   const res = await analyzeCallable({

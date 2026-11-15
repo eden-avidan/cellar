@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { useUser } from '../auth/AuthProvider.tsx';
 import { addPhotos, averageRating, deleteWine, displayName, removePhoto, removeTasting, updateWine, useWine, type Wine } from '../data/wines.ts';
 import { drinkStatus, toneClass } from '../lib/drink.ts';
-import { preparePhoto } from '../lib/images.ts';
+import { preparePhotos } from '../lib/images.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
 import { Stars } from '../ui/Stars.tsx';
 import { BottleArt, typeColor } from '../ui/WineCard.tsx';
@@ -77,7 +77,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
   const avg = averageRating(wine);
   const backTo = wine.list === 'wishlist' ? '/wishlist' : '/cellar';
 
-  const run = async (fn: () => Promise<unknown>) => {
+  const run = async (fn: () => unknown) => {
     setBusy(true);
     try {
       await fn();
@@ -87,7 +87,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
   };
 
   const onAddPhotos = (files: FileList | null) =>
-    files?.length && run(async () => addPhotos(uid, wine, await Promise.all([...files].slice(0, 3).map(preparePhoto))));
+    files?.length && run(async () => addPhotos(uid, wine, await preparePhotos([...files].slice(0, 3))));
 
   const onDelete = () => {
     if (!confirm(`Delete ${displayName(wine)} and its photos? This can't be undone.`)) return;

@@ -5,10 +5,18 @@ import type { AnalyzeRequest, AnalyzeResponse } from './common.js';
 import { SYSTEM_PROMPT, userText } from './prompt.js';
 import { sanitize, wineAnalysisSchema, type WineAnalysis } from './schema.js';
 
-type Effort = 'low' | 'medium' | 'high' | 'xhigh' | 'max';
+const EFFORTS = ['low', 'medium', 'high', 'xhigh', 'max'] as const;
+type Effort = (typeof EFFORTS)[number];
+
+// One attempt plus one retry must finish inside the function's 240 s timeout (index.ts).
+const REQUEST_TIMEOUT_MS = 90_000;
 
 export async function analyzeWithClaude(req: AnalyzeRequest, apiKey: string, model: string, effort: string): Promise<AnalyzeResponse> {
-  const client = new Anthropic({ apiKey, timeout: 100_000, maxRetries: 1 });
+  if (!EFFORTS.includes(effort as Effort)) {
+    logger.error('Bad CLAUDE_EFFORT', { effort });
+    throw new HttpsError('failed-precondition', `CLAUDE_EFFORT must be one of ${EFFORTS.join(', ')}.`);
+  }
+  const client = new Anthropic({ apiKey, timeout: REQUEST_TIMEOUT_MS, maxRetries: 1 });
   const started = Date.now();
   try {
     const response = await client.beta.messages.create({
@@ -36,7 +44,16 @@ export async function analyzeWithClaude(req: AnalyzeRequest, apiKey: string, mod
       ],
     });
     const ms = Date.now() - started;
-    logger.info('claude', { model: response.model, ms, stop: response.stop_reason, inTok: response.usage.input_tokens, outTok: response.usage.output_tokens });
+    logger.info('claude', {
+      model: response.model,
+      ms,
+      stop: response.stop_reason,
+      refusal: response.stop_details?.category ?? null,
+      inTok: response.usage.input_tokens,
+      outTok: response.usage.output_tokens,
+      // Shows whether a fallback model took over after a decline.
+      iterations: response.usage.iterations?.map((i) => i.type) ?? null,
+    });
 
     if (response.stop_reason === 'refusal') {
       throw new HttpsError('aborted', 'The model declined to read this photo. Try another photo.');
@@ -52,6 +69,11 @@ export async function analyzeWithClaude(req: AnalyzeRequest, apiKey: string, mod
     if (err instanceof Anthropic.AuthenticationError) {
       logger.error('Anthropic key rejected');
       throw new HttpsError('failed-precondition', 'The server Claude API key is invalid.');
+    }
+    if (err instanceof Anthropic.BadRequestError) {
+      // A request the API will never accept (schema, model name, params): retrying won't help.
+      logger.error('Anthropic rejected the request', { status: err.status, message: err.message });
+      throw new HttpsError('internal', 'The label reader is misconfigured. Check the function logs.');
     }
     if (err instanceof Anthropic.RateLimitError) {
       throw new HttpsError('resource-exhausted', 'Too many scans right now. Wait a minute and retry.');

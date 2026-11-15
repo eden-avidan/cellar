@@ -11,7 +11,7 @@ export function mockAnalysis(hasRatings: boolean): WineAnalysis {
       vintage: year - 4,
       country: 'Israel',
       region: 'Judean Hills',
-      appellation: null,
+      appellation: '',
       classification: 'Reserve',
       wine_type: 'red',
       grape_varieties: ['Cabernet Sauvignon', 'Merlot'],

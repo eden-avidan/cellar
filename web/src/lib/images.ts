@@ -29,6 +29,13 @@ function toBase64(blob: Blob): Promise<string> {
   });
 }
 
+/** One at a time: decoding several 12-48 MP photos at once can exhaust memory in iOS Safari. */
+export async function preparePhotos(files: File[]): Promise<PreparedPhoto[]> {
+  const out: PreparedPhoto[] = [];
+  for (const f of files) out.push(await preparePhoto(f));
+  return out;
+}
+
 /** Shrinks a camera photo (often 4-12 MB HEIC/JPEG) to a small JPEG, honouring EXIF rotation. */
 export async function preparePhoto(file: File): Promise<PreparedPhoto> {
   const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });

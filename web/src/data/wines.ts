@@ -184,39 +184,55 @@ async function uploadPhotos(uid: string, wineId: string, photos: PreparedPhoto[]
   );
 }
 
+/**
+ * Firestore writes go to the offline cache at once but their promises only settle when the server
+ * confirms. Screens must not wait on them, or "Saving…" spins forever in a cellar without signal.
+ * So writes are fired here and failures are only logged; the snapshot listeners update the UI.
+ */
+function fire(write: Promise<unknown>, what: string) {
+  write.catch((err) => console.error(`Firestore ${what} failed`, err));
+}
+
+/** Photo uploads need a connection (Storage doesn't queue offline); the document write doesn't wait. */
 export async function createWine(uid: string, fields: WineFields, photos: PreparedPhoto[]): Promise<string> {
   const ref_ = doc(winesCol(uid));
   const uploaded = await uploadPhotos(uid, ref_.id, photos, 0);
-  await setDoc(ref_, {
-    ...fields,
-    tastings: [],
-    photos: uploaded,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+  fire(
+    setDoc(ref_, {
+      ...fields,
+      tastings: [],
+      photos: uploaded,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    }),
+    'create',
+  );
   return ref_.id;
 }
 
 export function updateWine(uid: string, id: string, patch: Partial<Wine>) {
   const { id: _ignored, createdAt: _c, ...rest } = patch;
-  return updateDoc(wineDoc(uid, id), { ...rest, updatedAt: serverTimestamp() });
+  fire(updateDoc(wineDoc(uid, id), { ...rest, updatedAt: serverTimestamp() }), 'update');
 }
 
 export async function addPhotos(uid: string, wine: Wine, photos: PreparedPhoto[]) {
   const uploaded = await uploadPhotos(uid, wine.id, photos, wine.photos.length);
-  await updateWine(uid, wine.id, { photos: [...wine.photos, ...uploaded] });
+  updateWine(uid, wine.id, { photos: [...wine.photos, ...uploaded] });
 }
 
-export async function removePhoto(uid: string, wine: Wine, photo: Photo) {
-  await updateWine(uid, wine.id, { photos: wine.photos.filter((p) => p.path !== photo.path) });
-  await Promise.allSettled([deleteObject(ref(storage, photo.path)), deleteObject(ref(storage, photo.thumbPath))]);
+function deleteFiles(paths: string[]) {
+  // Best effort: offline, these fail and leave orphaned files, which cost next to nothing.
+  void Promise.allSettled(paths.map((p) => deleteObject(ref(storage, p))));
 }
 
-export async function deleteWine(uid: string, wine: Wine) {
-  await deleteDoc(wineDoc(uid, wine.id));
-  await Promise.allSettled(
-    wine.photos.flatMap((p) => [deleteObject(ref(storage, p.path)), deleteObject(ref(storage, p.thumbPath))]),
-  );
+export function removePhoto(uid: string, wine: Wine, photo: Photo) {
+  updateWine(uid, wine.id, { photos: wine.photos.filter((p) => p.path !== photo.path) });
+  deleteFiles([photo.path, photo.thumbPath]);
+}
+
+export function deleteWine(uid: string, wine: Wine) {
+  fire(deleteDoc(wineDoc(uid, wine.id)), 'delete');
+  deleteFiles(wine.photos.flatMap((p) => [p.path, p.thumbPath]));
 }
 
 /** Log a tasting. When `openedBottle` is set, one bottle leaves the cellar; the last one moves the wine to Finished. */
