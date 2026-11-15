@@ -7,7 +7,7 @@
     "node": "22"
   },
   "scripts": {
-    "build": "tsc -p .",
+    "build": "rm -rf lib && tsc -p .",
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
