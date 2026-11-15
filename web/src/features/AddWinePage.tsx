@@ -93,7 +93,7 @@ export function AddWinePage() {
     setSaving(true);
     setError(null);
     try {
-      const id = await createWine(user.uid, { ...fields, list }, photos);
+      const id = await createWine(user.uid, { ...fields, list }, photos, result);
       navigate(`/wine/${id}`, { replace: true });
     } catch {
       setError("Couldn't save. Check your connection and try again.");

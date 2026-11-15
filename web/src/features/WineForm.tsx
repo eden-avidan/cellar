@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { WINE_TYPES, type WineFields } from '../data/wines.ts';
+import { FOOD_PAIRINGS, WINE_TYPES, type Grape, type WineFields } from '../data/wines.ts';
 
 type Set = <K extends keyof WineFields>(key: K, value: WineFields[K]) => void;
 
@@ -63,6 +63,83 @@ function List({ label, value, onChange }: { label: string; value: string[]; onCh
   );
 }
 
+/** One row per grape: name + share of the blend (blank when unknown). */
+function GrapesEditor({ value, onChange }: { value: Grape[]; onChange: (v: Grape[]) => void }) {
+  const update = (i: number, g: Grape) => onChange(value.map((x, j) => (j === i ? g : x)));
+  const total = value.reduce((s, g) => s + (g.percent ?? 0), 0);
+  return (
+    <div className="col-span-2 flex flex-col gap-1">
+      <span className="text-xs font-medium text-ink-500">Grapes</span>
+      {value.map((g, i) => (
+        <div key={i} className="flex items-center gap-2">
+          <input
+            className={`${inputCls} flex-1`}
+            value={g.grape}
+            placeholder="Grape"
+            aria-label={`Grape ${i + 1}`}
+            onChange={(e) => update(i, { ...g, grape: e.target.value })}
+          />
+          <div className="relative w-24 shrink-0">
+            <input
+              className={`${inputCls} pr-7`}
+              inputMode="numeric"
+              value={g.percent ?? ''}
+              placeholder="?"
+              aria-label={`Grape ${i + 1} percent`}
+              onChange={(e) => {
+                const n = Number(e.target.value);
+                update(i, { ...g, percent: e.target.value.trim() === '' || Number.isNaN(n) ? null : n });
+              }}
+            />
+            <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sm text-ink-500">%</span>
+          </div>
+          <button
+            type="button"
+            aria-label={`Remove grape ${i + 1}`}
+            onClick={() => onChange(value.filter((_, j) => j !== i))}
+            className="grid size-9 shrink-0 place-items-center rounded-full text-ink-500 active:bg-cream-200"
+          >
+            ✕
+          </button>
+        </div>
+      ))}
+      <div className="flex items-center justify-between">
+        <button type="button" onClick={() => onChange([...value, { grape: '', percent: null }])} className="py-1 text-sm font-medium text-wine-800">
+          + Add grape
+        </button>
+        {total > 0 && total !== 100 && <span className="text-xs text-amber-800">Shares add up to {total}%</span>}
+      </div>
+    </div>
+  );
+}
+
+/** Tap to toggle food categories; anything outside the list (older entries) stays removable. */
+function PairingPicker({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
+  const options: string[] = [...FOOD_PAIRINGS, ...value.filter((v) => !(FOOD_PAIRINGS as readonly string[]).includes(v))];
+  const toggle = (o: string) => onChange(value.includes(o) ? value.filter((v) => v !== o) : [...value, o]);
+  return (
+    <div className="col-span-2 flex flex-col gap-1.5">
+      <span className="text-xs font-medium text-ink-500">Food pairings</span>
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((o) => {
+          const on = value.includes(o);
+          return (
+            <button
+              key={o}
+              type="button"
+              aria-pressed={on}
+              onClick={() => toggle(o)}
+              className={`rounded-full px-3 py-1.5 text-sm ${on ? 'bg-wine-800 text-white' : 'bg-white text-ink-700 ring-1 ring-ink-200'}`}
+            >
+              {o}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Select({ label, value, options, onChange }: { label: string; value: string; options: readonly string[]; onChange: (v: string) => void }) {
   return (
     <Field label={label}>
@@ -111,7 +188,7 @@ export function WineForm({ value, onChange, fromAi }: { value: WineFields; onCha
         <Text label="Region" value={w.region} onChange={(v) => set('region', v)} wide={false} />
         <Text label="Appellation" value={w.appellation} onChange={(v) => set('appellation', v)} wide={false} />
         <Text label="Classification" value={w.classification} onChange={(v) => set('classification', v)} wide={false} />
-        <List label="Grapes" value={w.grapes} onChange={(v) => set('grapes', v)} />
+        <GrapesEditor value={w.grapes} onChange={(v) => set('grapes', v)} />
         <Num label="Alcohol" value={w.alcohol} onChange={(v) => set('alcohol', v)} suffix="%" />
         <Num label="Bottle size" value={w.bottleSizeMl} onChange={(v) => set('bottleSizeMl', v)} step="1" suffix="ml" />
       </Section>
@@ -130,7 +207,7 @@ export function WineForm({ value, onChange, fromAi }: { value: WineFields; onCha
         <Select label="Acidity" value={w.acidity} options={['low', 'medium', 'high']} onChange={(v) => set('acidity', v)} />
         <Select label="Tannin" value={w.tannin} options={['low', 'medium', 'high']} onChange={(v) => set('tannin', v)} />
         <List label="Tasting notes" value={w.tastingNotes} onChange={(v) => set('tastingNotes', v)} />
-        <List label="Food pairings" value={w.foodPairings} onChange={(v) => set('foodPairings', v)} />
+        <PairingPicker value={w.foodPairings} onChange={(v) => set('foodPairings', v)} />
         <Num label="Serve from" value={w.servingTempMin} onChange={(v) => set('servingTempMin', v)} suffix="°C" />
         <Num label="Serve to" value={w.servingTempMax} onChange={(v) => set('servingTempMax', v)} suffix="°C" />
         <Num label="Decant" value={w.decantMinutes} onChange={(v) => set('decantMinutes', v)} step="1" suffix="min" />

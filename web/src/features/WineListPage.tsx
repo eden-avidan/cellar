@@ -46,7 +46,7 @@ export function WineListPage({ list }: { list: 'cellar' | 'wishlist' }) {
       .filter(
         (w) =>
           !q ||
-          [displayName(w), w.region, w.country, w.grapes.join(' '), String(w.vintage ?? ''), w.location]
+          [displayName(w), w.region, w.country, w.grapes.map((g) => g.grape).join(' '), String(w.vintage ?? ''), w.location]
             .join(' ')
             .toLowerCase()
             .includes(q),

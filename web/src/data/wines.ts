@@ -14,9 +14,18 @@ import {
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../firebase.ts';
 import type { PreparedPhoto } from '../lib/images.ts';
+import type { WineAnalysis } from '../../../functions/src/schema.ts';
 
-export const WINE_TYPES = ['red', 'white', 'rosé', 'sparkling', 'dessert', 'fortified', 'orange'] as const;
+import { WINE_TYPES } from '../../../functions/src/schema.ts';
+
+export { FOOD_PAIRINGS, WINE_TYPES } from '../../../functions/src/schema.ts';
 export type WineType = (typeof WINE_TYPES)[number];
+
+/** One grape of the blend; percent is null when unknown. */
+export interface Grape {
+  grape: string;
+  percent: number | null;
+}
 export type WineList = 'cellar' | 'wishlist' | 'finished';
 
 export interface Tasting {
@@ -45,7 +54,7 @@ export interface WineFields {
   appellation: string;
   classification: string;
   wineType: WineType | '';
-  grapes: string[];
+  grapes: Grape[];
   alcohol: number | null;
   bottleSizeMl: number | null;
   // AI estimates
@@ -78,10 +87,19 @@ export interface WineFields {
   notes: string;
 }
 
+/** Claude's original answer for this bottle, kept so it can be reloaded instead of scanned again. */
+export interface StoredScan {
+  analysis: WineAnalysis;
+  model: string;
+  ms: number;
+  scannedAt: string; // ISO time
+}
+
 export interface Wine extends WineFields {
   id: string;
   tastings: Tasting[];
   photos: Photo[];
+  scan: StoredScan | null;
   createdAt: Timestamp | null;
   updatedAt: Timestamp | null;
 }
@@ -132,15 +150,24 @@ const wineDoc = (uid: string, id: string) => doc(db, 'users', uid, 'wines', id);
 
 function fromDoc(id: string, data: Record<string, unknown>): Wine {
   // Spread over the defaults so older documents missing a newer field still render.
-  return {
+  const wine: Wine = {
     ...emptyWine((data.list as WineList) ?? 'cellar'),
     tastings: [],
     photos: [],
+    scan: null,
     createdAt: null,
     updatedAt: null,
     ...(data as Partial<Wine>),
     id,
   };
+  // Early records stored grapes as plain names.
+  wine.grapes = (wine.grapes as unknown[]).map((g) => (typeof g === 'string' ? { grape: g, percent: null } : (g as Grape)));
+  return wine;
+}
+
+/** "Grenache 60% · Syrah 30% · Mourvèdre" */
+export function grapesText(grapes: Grape[]): string {
+  return grapes.map((g) => (g.percent != null ? `${g.grape} ${g.percent}%` : g.grape)).join(' · ');
 }
 
 export function useWines(uid: string) {
@@ -194,7 +221,12 @@ function fire(write: Promise<unknown>, what: string) {
 }
 
 /** Photo uploads need a connection (Storage doesn't queue offline); the document write doesn't wait. */
-export async function createWine(uid: string, fields: WineFields, photos: PreparedPhoto[]): Promise<string> {
+export async function createWine(
+  uid: string,
+  fields: WineFields,
+  photos: PreparedPhoto[],
+  scan: Omit<StoredScan, 'scannedAt'> | null = null,
+): Promise<string> {
   const ref_ = doc(winesCol(uid));
   const uploaded = await uploadPhotos(uid, ref_.id, photos, 0);
   fire(
@@ -202,6 +234,7 @@ export async function createWine(uid: string, fields: WineFields, photos: Prepar
       ...fields,
       tastings: [],
       photos: uploaded,
+      scan: scan ? { ...scan, scannedAt: new Date().toISOString() } : null,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     }),

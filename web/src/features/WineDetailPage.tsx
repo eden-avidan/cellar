@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { useUser } from '../auth/AuthProvider.tsx';
-import { addPhotos, averageRating, deleteWine, displayName, removePhoto, removeTasting, updateWine, useWine, type Wine } from '../data/wines.ts';
+import { addPhotos, averageRating, deleteWine, displayName, removePhoto, removeTasting, updateWine, useWine, grapesText, type Wine } from '../data/wines.ts';
 import { drinkStatus, toneClass } from '../lib/drink.ts';
 import { preparePhotos } from '../lib/images.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
@@ -278,7 +278,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
           <Row label="Producer" value={wine.producer} />
           <Row label="Wine" value={wine.wineName} />
           <Row label="Vintage" value={wine.vintage} />
-          <Row label="Grapes" value={wine.grapes.join(', ')} />
+          <Row label="Grapes" value={grapesText(wine.grapes)} />
           <Row label="Appellation" value={wine.appellation} />
           <Row label="Alcohol" value={wine.alcohol != null ? `${wine.alcohol}%` : null} />
           <Row label="Bottle" value={wine.bottleSizeMl ? `${wine.bottleSizeMl} ml` : null} />
@@ -287,6 +287,16 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
               {wine.aiModel && <>Read by {wine.aiModel}. </>}
               {wine.aiNotes}
             </p>
+          )}
+          {wine.scan && (
+            <details className="mt-2 text-xs text-ink-500">
+              <summary className="cursor-pointer">
+                Original scan ({wine.scan.model}, {(wine.scan.ms / 1000).toFixed(1)}s, {wine.scan.scannedAt.slice(0, 10)})
+              </summary>
+              <pre className="mt-2 max-h-80 overflow-auto rounded-lg bg-cream-100 p-2 text-[11px] leading-snug whitespace-pre-wrap">
+                {JSON.stringify(wine.scan.analysis, null, 2)}
+              </pre>
+            </details>
           )}
         </Card>
 

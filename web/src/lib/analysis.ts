@@ -1,42 +1,9 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase.ts';
-import { averageRating, displayName, emptyWine, type Wine, type WineFields, type WineList, type WineType } from '../data/wines.ts';
+import { averageRating, displayName, emptyWine, type Wine, type WineFields, type WineList } from '../data/wines.ts';
 
-// Mirror of functions/src/schema.ts. Text and choice fields use '' for unknown (keeps the
-// schema under the API's limit on nullable fields); numbers and optional objects use null.
-type Level = 'low' | 'medium' | 'high' | '';
-export interface WineAnalysis {
-  is_wine_label: boolean;
-  label: {
-    producer: string;
-    wine_name: string;
-    vintage: number | null;
-    country: string;
-    region: string;
-    appellation: string;
-    classification: string;
-    wine_type: WineType | '';
-    grape_varieties: string[];
-    alcohol_percent: number | null;
-    bottle_size_ml: number | null;
-  };
-  profile: {
-    body: 'light' | 'medium' | 'full' | '';
-    sweetness: 'dry' | 'off-dry' | 'medium-sweet' | 'sweet' | '';
-    acidity: Level;
-    tannin: Level;
-    tasting_notes: string[];
-    food_pairings: string[];
-    serving_temperature_c: { min: number; max: number } | null;
-    decant_minutes: number | null;
-    best_time_to_open: { from_year: number | null; to_year: number | null; note: string };
-    expires_at: { year: number; source: 'label' | 'estimate' } | null;
-    typical_price_ils: number | null;
-  };
-  taste_fit: { score: number; reason: string } | null;
-  label_reading_confidence: 'high' | 'medium' | 'low';
-  notes: string;
-}
+export type { WineAnalysis } from '../../../functions/src/schema.ts';
+import type { WineAnalysis } from '../../../functions/src/schema.ts';
 
 interface RatedWine {
   name: string;
@@ -56,7 +23,7 @@ export function ratedWines(wines: Wine[]): RatedWine[] {
     .map(({ w, avg }) => ({
       name: [displayName(w), w.vintage].filter(Boolean).join(' '),
       type: w.wineType || null,
-      grapes: w.grapes,
+      grapes: w.grapes.map((g) => g.grape),
       region: w.region || null,
       rating: Math.round(avg * 10) / 10,
     }));

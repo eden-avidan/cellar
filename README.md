@@ -14,12 +14,19 @@ each bottle after you taste it, and keep a wishlist of bottles to buy.
 
 | Group | Fields | Source |
 |---|---|---|
-| Label | producer, name, vintage, type, country, region, appellation, classification, grapes, alcohol, bottle size | Read from the label; null when unreadable |
+| Label | producer, name, vintage, type, country, region, appellation, classification, grapes (name + % of the blend when known), alcohol, bottle size | Read from the label; empty when unreadable |
 | When to drink | best time to open (from/to year + note), expires at (year, from the label or estimated) | Claude's estimate |
-| Style & serving | body, sweetness, acidity, tannin, tasting notes, food pairings, serving temp, decanting, typical price (₪) | Claude's estimate |
+| Style & serving | body, sweetness, acidity, tannin, tasting notes, food pairings (2–4 from a fixed list of 17 categories, see `FOOD_PAIRINGS` in `functions/src/schema.ts`), serving temp, decanting, typical price (₪) | Claude's estimate |
 | Taste fit | 1–5 score + reason, based on the wines you've already rated | Claude, once you have ratings |
 | Yours (all optional) | bottles, storage spot, price paid, shop, purchase date, notes | You |
 | Tastings | date, 1–5 stars, notes; "Open a bottle" also takes one out of the cellar | You |
+
+Each scanned wine also keeps Claude's original answer (`scan` on the Firestore document: the JSON,
+model, time taken, date). The bottle page shows it, and **Edit → Reset to scanned values** reloads it
+without a new scan. **Add → From my wines** puts another bottle of a wine you've had back in the cellar.
+
+`functions/src/schema.ts` is the single source of the answer's shape; the web app imports its
+constants and types directly.
 
 Lists: **Cellar** (with a **Finished** tab, which the last opened bottle moves to) and **Wishlist**
 (with a "Bought it → cellar" button).
@@ -40,7 +47,7 @@ photos, roughly **$0.05 per scan** on Opus 5.5.
 
 ```bash
 npm install
-npm run emulators          # auth, firestore, storage, functions on the emulators
+npm run emulators          # auth, firestore, storage, functions (uses firebase.emulator.json)
 npm run dev                # http://localhost:5173
 ```
 

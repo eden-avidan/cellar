@@ -41,6 +41,15 @@ export function AddSheet({ list, onClose }: { list: 'cellar' | 'wishlist'; onClo
       <div className="flex flex-col gap-2.5 pb-2">
         <Option icon="📷" title="Take photo" hint="Photograph the front label" onClick={() => camera.current?.click()} />
         <Option icon="🖼️" title="Choose from library" hint="Up to 3 photos, e.g. front and back" onClick={() => library.current?.click()} />
+        <Option
+          icon="🍷"
+          title="From my wines"
+          hint={list === 'wishlist' ? 'Want a finished wine again' : "Another bottle of a wine you've had"}
+          onClick={() => {
+            onClose();
+            navigate(`/add/previous?list=${list}`);
+          }}
+        />
         <div className="my-1 flex items-center gap-3 text-xs text-ink-500">
           <hr className="flex-1 border-ink-200" />
           or
