@@ -1,14 +1,21 @@
 rules_version = '2';
 
-// Single-owner app: every document lives under users/{uid}, and only that user can touch it.
+// Single-owner app: only the owner's account can read or write, and only under users/{their uid}.
+// OWNER is the Firebase Auth UID (an opaque ID, safe to commit), not an email address.
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null
+        && request.auth.uid == uid
+        && request.auth.uid == 'ifSTXdSuAEhT1cQ0PBYldXAtgpK2';
+    }
+
     match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isOwner(uid);
 
       match /wines/{wineId} {
-        allow read, delete: if request.auth != null && request.auth.uid == uid;
-        allow create, update: if request.auth != null && request.auth.uid == uid
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
           && request.resource.data.list in ['cellar', 'wishlist', 'finished']
           && request.resource.data.size() < 120;
       }
