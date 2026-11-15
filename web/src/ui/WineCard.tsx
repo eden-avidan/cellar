@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { averageRating, displayName, type Wine } from '../data/wines.ts';
 import { drinkStatus, toneClass } from '../lib/drink.ts';
+import { wineFlag } from '../lib/flags.ts';
 import { Stars } from './Stars.tsx';
 
 export const typeColor: Record<string, string> = {
@@ -29,7 +30,7 @@ export function WineCard({ wine }: { wine: Wine }) {
   const status = wine.list === 'cellar' ? drinkStatus(wine) : null;
   const avg = averageRating(wine);
   const thumb = wine.photos[0]?.thumbUrl;
-  const sub = [wine.vintage, wine.region || wine.country].filter(Boolean).join(' · ');
+  const sub = [wineFlag(wine), [wine.vintage, wine.region || wine.country].filter(Boolean).join(' · ')].filter(Boolean).join(' ');
 
   return (
     <Link

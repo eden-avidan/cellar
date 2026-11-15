@@ -48,6 +48,7 @@ export const wineAnalysisSchema = obj({
     wine_name: str,
     vintage: nullable(int),
     country: str,
+    country_code: { ...str, description: 'ISO 3166-1 alpha-2 code of the country, e.g. "IL", "FR", "GE". Empty if unknown.' },
     region: str,
     appellation: str,
     classification: { ...str, description: 'E.g. Reserve, Grand Cru, DOCG, Gran Reserva. Empty if none.' },
@@ -107,6 +108,7 @@ export interface WineAnalysis {
     wine_name: string;
     vintage: number | null;
     country: string;
+    country_code: string;
     region: string;
     appellation: string;
     classification: string;
@@ -141,6 +143,7 @@ export function sanitize(a: WineAnalysis): WineAnalysis {
   const l = a.label;
   l.vintage = l.vintage != null && l.vintage >= 1800 && l.vintage <= year + 1 ? l.vintage : null;
   if (l.alcohol_percent != null && (l.alcohol_percent < 3 || l.alcohol_percent > 25)) l.alcohol_percent = null;
+  l.country_code = /^[A-Za-z]{2}$/.test(l.country_code.trim()) ? l.country_code.trim().toUpperCase() : '';
   l.grape_varieties = l.grape_varieties
     .map((g) => ({ grape: g.grape.trim(), percent: g.percent != null && g.percent > 0 && g.percent <= 100 ? g.percent : null }))
     .filter((g) => g.grape);

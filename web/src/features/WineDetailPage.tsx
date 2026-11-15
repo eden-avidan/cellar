@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { useUser } from '../auth/AuthProvider.tsx';
 import { addPhotos, averageRating, deleteWine, displayName, removePhoto, removeTasting, updateWine, useWine, grapesText, type Wine } from '../data/wines.ts';
 import { drinkStatus, toneClass } from '../lib/drink.ts';
+import { wineFlag } from '../lib/flags.ts';
 import { preparePhotos } from '../lib/images.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
 import { Stars } from '../ui/Stars.tsx';
@@ -173,7 +174,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
         <div>
           <h1 className="font-serif text-3xl leading-tight font-semibold text-wine-900">{displayName(wine)}</h1>
           <p className="mt-1 text-ink-500">
-            {[wine.vintage, wine.classification, [wine.region, wine.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ')}
+            {[wineFlag(wine), [wine.vintage, wine.classification, [wine.region, wine.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ')].filter(Boolean).join(' ')}
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             {wine.wineType && (

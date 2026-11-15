@@ -10,6 +10,7 @@ export function mockAnalysis(hasRatings: boolean): WineAnalysis {
       wine_name: 'Mock Reserve',
       vintage: year - 4,
       country: 'Israel',
+      country_code: 'IL',
       region: 'Judean Hills',
       appellation: '',
       classification: 'Reserve',

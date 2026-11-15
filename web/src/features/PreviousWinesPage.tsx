@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useUser } from '../auth/AuthProvider.tsx';
 import { averageRating, displayName, updateWine, useWines, type Wine } from '../data/wines.ts';
+import { wineFlag } from '../lib/flags.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
 import { Stars } from '../ui/Stars.tsx';
 import { BottleArt } from '../ui/WineCard.tsx';
@@ -78,7 +79,7 @@ export function PreviousWinesPage() {
               )}
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-serif text-[16px] font-semibold">
-                  {displayName(w)} {w.vintage ?? ''}
+                  {wineFlag(w)} {displayName(w)} {w.vintage ?? ''}
                 </span>
                 <span className="flex items-center gap-2 text-sm text-ink-500">
                   {where(w)}

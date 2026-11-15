@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { FOOD_PAIRINGS, WINE_TYPES, type Grape, type WineFields } from '../data/wines.ts';
+import { countryCodeFor, wineFlag } from '../lib/flags.ts';
 
 type Set = <K extends keyof WineFields>(key: K, value: WineFields[K]) => void;
 
@@ -184,7 +185,12 @@ export function WineForm({ value, onChange, fromAi }: { value: WineFields; onCha
         <Text label="Wine name" value={w.wineName} onChange={(v) => set('wineName', v)} />
         <Num label="Vintage" value={w.vintage} onChange={(v) => set('vintage', v)} step="1" />
         <Select label="Type" value={w.wineType} options={WINE_TYPES} onChange={(v) => set('wineType', v as WineFields['wineType'])} />
-        <Text label="Country" value={w.country} onChange={(v) => set('country', v)} wide={false} />
+        <Text
+          label={`Country ${wineFlag(w)}`.trim()}
+          value={w.country}
+          onChange={(v) => onChange({ ...value, country: v, countryCode: countryCodeFor(v) })}
+          wide={false}
+        />
         <Text label="Region" value={w.region} onChange={(v) => set('region', v)} wide={false} />
         <Text label="Appellation" value={w.appellation} onChange={(v) => set('appellation', v)} wide={false} />
         <Text label="Classification" value={w.classification} onChange={(v) => set('classification', v)} wide={false} />

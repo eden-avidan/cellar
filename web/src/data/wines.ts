@@ -54,6 +54,7 @@ export interface WineFields {
   wineName: string;
   vintage: number | null;
   country: string;
+  countryCode: string; // ISO 3166-1 alpha-2, '' if unknown
   region: string;
   appellation: string;
   classification: string;
@@ -118,6 +119,7 @@ export const emptyWine = (list: WineList): WineFields => ({
   wineName: '',
   vintage: null,
   country: '',
+  countryCode: '',
   region: '',
   appellation: '',
   classification: '',

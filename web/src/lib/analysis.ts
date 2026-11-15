@@ -56,6 +56,7 @@ export function analysisToFields(a: WineAnalysis, list: WineList, model = ''): W
     wineName: l.wine_name ?? '',
     vintage: l.vintage,
     country: l.country ?? '',
+    countryCode: l.country_code ?? '',
     region: l.region ?? '',
     appellation: l.appellation ?? '',
     classification: l.classification ?? '',
