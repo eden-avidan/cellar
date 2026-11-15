@@ -1,7 +1,17 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { useUser } from '../auth/AuthProvider.tsx';
 import { addPhotos, averageRating, deleteWine, displayName, removePhoto, removeTasting, updateWine, useWine, grapesText, type Wine } from '../data/wines.ts';
+import {
+  CLEAN_PHOTO_COST,
+  autoFindCleanPhoto,
+  canFindCleanPhoto,
+  cleanPhotoErrorMessage,
+  findCleanPhoto,
+  hostOf,
+  searchRunningElsewhere,
+  useCleanPhotoState,
+} from '../lib/cleanPhoto.ts';
 import { drinkStatus, toneClass } from '../lib/drink.ts';
 import { preparePhotos } from '../lib/images.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
@@ -65,6 +75,72 @@ export function WineDetailPage() {
       )}
       {wine && <WineDetail uid={user.uid} wine={wine} />}
     </>
+  );
+}
+
+/** Status of the clean online photo, with a button to search (again). */
+function CleanPhotoStatus({ wine }: { wine: Wine }) {
+  const { running } = useCleanPhotoState();
+  const [error, setError] = useState<string | null>(null);
+  const [skipped, setSkipped] = useState<string | null>(null);
+  const search = wine.cleanPhotoSearch;
+  const hasOwnPhoto = wine.photos.some((p) => !p.source);
+  const canSearch = canFindCleanPhoto(wine);
+  const busy = running.has(wine.id) || searchRunningElsewhere(wine);
+
+  // Right after a scan, look for a clean photo automatically (once; later it's the button).
+  useEffect(() => {
+    const fresh = wine.scan && Date.now() - Date.parse(wine.scan.scannedAt) < 15 * 60_000;
+    if (fresh && !search && canSearch && navigator.onLine) autoFindCleanPhoto(wine.id);
+  }, [wine.id, wine.scan, search, canSearch]);
+
+  const run = () => {
+    setError(null);
+    setSkipped(null);
+    findCleanPhoto(wine.id)
+      .then((r) => r.status === 'skipped' && setSkipped(r.reason))
+      .catch((err) => setError(cleanPhotoErrorMessage(err)));
+  };
+
+  if (busy) {
+    return (
+      <p className="flex items-center gap-2 px-4 pt-2 text-sm text-ink-500">
+        <span className="size-4 animate-spin rounded-full border-2 border-wine-100 border-t-wine-800" />
+        Looking for a clean bottle photo online…
+      </p>
+    );
+  }
+  const button = canSearch && (
+    <button type="button" onClick={run} className="font-medium text-wine-800 underline">
+      {search ? 'Search again' : 'Find a clean photo online'}
+    </button>
+  );
+  const webPhotoShown = wine.photos.some((p) => p.source);
+  return (
+    <div className="px-4 pt-2 text-xs text-ink-500">
+      {search?.status === 'found' && search.pageUrl && webPhotoShown && (
+        <p>
+          First photo from{' '}
+          <a href={search.pageUrl} target="_blank" rel="noreferrer" className="underline">
+            {hostOf(search.pageUrl)}
+          </a>
+          {search.sameVintage === 'no' && ' (same label, different vintage)'}. {button}
+        </p>
+      )}
+      {(search?.status === 'none' || (search?.status === 'found' && !webPhotoShown)) && (
+        <p>
+          {search.status === 'none' ? `No clean photo found online${search.reason ? `: ${search.reason}` : '.'}` : 'Online photo removed.'} {button}
+        </p>
+      )}
+      {!search && button && (
+        <p>
+          {button} <span>({CLEAN_PHOTO_COST})</span>
+        </p>
+      )}
+      {!search && !hasOwnPhoto && (wine.producer || wine.wineName) && <p>Add a photo of your bottle to look for a clean one online.</p>}
+      {skipped && <p className="mt-1">{skipped}</p>}
+      {error && <p className="mt-1 text-rose-700">{error}</p>}
+    </div>
   );
 }
 
@@ -140,6 +216,8 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
         )}
         <input ref={photoInput} type="file" accept="image/*" multiple hidden onChange={(e) => { void onAddPhotos(e.target.files); e.target.value = ''; }} />
       </div>
+
+      <CleanPhotoStatus wine={wine} />
 
       <div className="mt-4 flex flex-col gap-3 px-4">
         {/* Title */}
@@ -235,10 +313,11 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
         )}
 
         {/* When to drink */}
-        {(wine.drinkFrom || wine.drinkUntil || wine.drinkNote || wine.expiresYear) && (
+        {(wine.drinkFrom || wine.drinkUntil || wine.drinkNote || wine.expiresYear || wine.peakFrom) && (
           <Card title="When to drink">
             {wine.drinkNote && <p className="mb-2 text-[15px]">{wine.drinkNote}</p>}
-            <Row label="Best time to open" value={range(wine.drinkFrom, wine.drinkUntil)} />
+            <Row label="At its peak" value={range(wine.peakFrom, wine.peakTo)} />
+            <Row label="Drinks well" value={range(wine.drinkFrom, wine.drinkUntil)} />
             <Row
               label="Expires"
               value={wine.expiresYear ? `${wine.expiresYear}${wine.expiresSource === 'label' ? ' (on label)' : wine.expiresSource === 'estimate' ? ' (estimate)' : ''}` : null}

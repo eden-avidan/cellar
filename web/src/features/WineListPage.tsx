@@ -6,6 +6,8 @@ import { averageRating, displayName, useWines, type Wine } from '../data/wines.t
 import { drinkStatus } from '../lib/drink.ts';
 import { Link } from 'react-router';
 import { PickPhotosButton } from '../ui/PickPhotosButton.tsx';
+import { CleanPhotoBanner } from '../ui/CleanPhotoBanner.tsx';
+import { PeakBanner } from '../ui/PeakBanner.tsx';
 import { WineCard } from '../ui/WineCard.tsx';
 
 type Sort = 'newest' | 'drink' | 'rating' | 'vintage' | 'fit';
@@ -43,7 +45,7 @@ export function WineListPage({ list }: { list: 'cellar' | 'wishlist' }) {
     return wines
       .filter((w) => w.list === shownList)
       .filter((w) => type === 'all' || (type === 'other' ? !MAIN_TYPES.includes(w.wineType) : w.wineType === type))
-      .filter((w) => !readyOnly || ['ready', 'soon'].includes(drinkStatus(w)?.tone ?? ''))
+      .filter((w) => !readyOnly || ['ready', 'peak', 'soon'].includes(drinkStatus(w)?.tone ?? ''))
       .filter(
         (w) =>
           !q ||
@@ -136,6 +138,8 @@ export function WineListPage({ list }: { list: 'cellar' | 'wishlist' }) {
       </header>
 
       <section className="mt-3 flex flex-col gap-2.5 px-4">
+        {wines && <PeakBanner wines={wines} />}
+        {wines && <CleanPhotoBanner wines={wines} />}
         {error && <p className="rounded-xl bg-rose-50 p-3 text-sm text-rose-800">Couldn't load your wines: {error}</p>}
         {wines == null && !error && <p className="py-10 text-center text-ink-500">Loading…</p>}
         {wines != null && visible.length === 0 && (

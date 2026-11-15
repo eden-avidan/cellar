@@ -38,7 +38,7 @@ export const FOOD_PAIRINGS = [
 export type FoodPairing = (typeof FOOD_PAIRINGS)[number];
 
 // Structured outputs allow at most 16 union-typed (anyOf) fields per request, so text and enum
-// fields use "" for "unknown" and only numbers/objects that can be absent are nullable (11 unions).
+// fields use "" for "unknown" and only numbers/objects that can be absent are nullable (12 unions).
 const enumOrEmpty = (values: readonly string[]) => ({ type: 'string', enum: [...values, ''] });
 
 export const wineAnalysisSchema = obj({
@@ -74,7 +74,11 @@ export const wineAnalysisSchema = obj({
     best_time_to_open: obj({
       from_year: nullable(int),
       to_year: nullable(int),
-      note: { ...str, description: 'One short sentence, e.g. "Peak drinking 2027-2031; fine now after decanting." Empty if unknown.' },
+      note: { ...str, description: 'One short sentence, e.g. "Drinks well 2026-2032; best 2028-2030; decant now." Empty if unknown.' },
+    }),
+    peak: nullable({
+      ...obj({ from_year: int, to_year: int }),
+      description: 'The narrower stretch when the wine is at its very best, inside best_time_to_open. Null if unknown.',
     }),
     expires_at: nullable(
       obj({
@@ -121,6 +125,7 @@ export interface WineAnalysis {
     serving_temperature_c: { min: number; max: number } | null;
     decant_minutes: number | null;
     best_time_to_open: { from_year: number | null; to_year: number | null; note: string };
+    peak: { from_year: number; to_year: number } | null;
     expires_at: { year: number; source: 'label' | 'estimate' } | null;
     typical_price_ils: number | null;
   };
@@ -148,8 +153,9 @@ export function sanitize(a: WineAnalysis): WineAnalysis {
   if (w.from_year != null && w.to_year != null && w.from_year > w.to_year) [w.from_year, w.to_year] = [w.to_year, w.from_year];
   if (w.from_year != null && l.vintage != null && w.from_year < l.vintage) w.from_year = l.vintage;
   if (p.expires_at && okYear(p.expires_at.year) == null) p.expires_at = null;
-  // expires_at is the end of drinkability, so never before the end of the peak window.
+  // expires_at is the end of drinkability, so never before the end of the drinking window.
   if (p.expires_at && w.to_year != null && p.expires_at.year < w.to_year) p.expires_at.year = w.to_year;
+  p.peak = sanitizePeak(p.peak, w.from_year, w.to_year, l.vintage);
   const t = p.serving_temperature_c;
   if (t && t.min > t.max) [t.min, t.max] = [t.max, t.min];
   if (p.decant_minutes != null && (p.decant_minutes < 0 || p.decant_minutes > 600)) p.decant_minutes = null;
@@ -157,4 +163,22 @@ export function sanitize(a: WineAnalysis): WineAnalysis {
   p.food_pairings = [...new Set(p.food_pairings)];
   if (a.taste_fit) a.taste_fit.score = Math.min(5, Math.max(1, Math.round(a.taste_fit.score)));
   return a;
+}
+
+/** Keeps the peak a valid range inside the drinking window (and never before the vintage). */
+export function sanitizePeak(
+  peak: { from_year: number; to_year: number } | null,
+  windowFrom: number | null,
+  windowTo: number | null,
+  vintage: number | null,
+): { from_year: number; to_year: number } | null {
+  if (!peak) return null;
+  const year = new Date().getFullYear();
+  let { from_year: from, to_year: to } = peak;
+  if (![from, to].every((y) => Number.isInteger(y) && y >= 1800 && y <= year + 80)) return null;
+  if (from > to) [from, to] = [to, from];
+  if (vintage != null) from = Math.max(from, vintage);
+  if (windowFrom != null) from = Math.max(from, windowFrom);
+  if (windowTo != null) to = Math.min(to, windowTo);
+  return from <= to ? { from_year: from, to_year: to } : null;
 }

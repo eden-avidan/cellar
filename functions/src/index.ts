@@ -1,11 +1,16 @@
 import { setGlobalOptions } from 'firebase-functions/v2';
-import { onCall } from 'firebase-functions/v2/https';
+import { HttpsError, onCall } from 'firebase-functions/v2/https';
 import { defineSecret, defineString } from 'firebase-functions/params';
 
+import { initializeApp } from 'firebase-admin/app';
+
 import { analyzeWithClaude } from './claude.js';
+import { findCleanPhoto as runFindCleanPhoto } from './cleanPhoto.js';
 import { checkCaller, isEmulator, parseRequest, type AnalyzeResponse } from './common.js';
 import { mockAnalysis } from './mock.js';
+import { estimatePeak as runEstimatePeak } from './peak.js';
 
+initializeApp();
 setGlobalOptions({ region: 'europe-west1', maxInstances: 3 });
 
 // Comma-separated Google accounts allowed to spend the API key. Required in production.
@@ -27,3 +32,36 @@ export const analyzeLabel = onCall(
     return analyzeWithClaude(req, ANTHROPIC_API_KEY.value(), CLAUDE_MODEL.value(), CLAUDE_EFFORT.value());
   },
 );
+
+/** Finds a clean product photo of the wine online and puts it first. See cleanPhoto.ts. */
+export const findCleanPhoto = onCall(
+  { secrets: [ANTHROPIC_API_KEY], timeoutSeconds: 300, memory: '1GiB' },
+  async (request) => {
+    checkCaller(request.auth, ALLOWED_EMAILS.value());
+    const { wineId, onlyIfMissing } = (request.data ?? {}) as { wineId?: unknown; onlyIfMissing?: unknown };
+    if (typeof wineId !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(wineId)) {
+      throw new HttpsError('invalid-argument', 'Missing wine id.');
+    }
+    return runFindCleanPhoto(request.auth!.uid, wineId, {
+      apiKey: isEmulator && process.env.AI_MOCK === 'true' ? '' : ANTHROPIC_API_KEY.value(),
+      model: CLAUDE_MODEL.value(),
+      mock: isEmulator && process.env.AI_MOCK === 'true',
+      onlyIfMissing: onlyIfMissing === true,
+    });
+  },
+);
+
+/** Adds a peak estimate to a wine saved before scans included one (text only, no photos). */
+export const estimatePeak = onCall({ secrets: [ANTHROPIC_API_KEY], timeoutSeconds: 90 }, async (request) => {
+  checkCaller(request.auth, ALLOWED_EMAILS.value());
+  const wineId = (request.data as { wineId?: unknown })?.wineId;
+  if (typeof wineId !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(wineId)) {
+    throw new HttpsError('invalid-argument', 'Missing wine id.');
+  }
+  const mock = isEmulator && process.env.AI_MOCK === 'true';
+  return runEstimatePeak(request.auth!.uid, wineId, {
+    apiKey: mock ? '' : ANTHROPIC_API_KEY.value(),
+    model: CLAUDE_MODEL.value(),
+    mock,
+  });
+});

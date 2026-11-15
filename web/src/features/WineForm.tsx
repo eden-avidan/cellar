@@ -194,8 +194,10 @@ export function WineForm({ value, onChange, fromAi }: { value: WineFields; onCha
       </Section>
 
       <Section title="When to drink" hint={est}>
-        <Num label="Best from (year)" value={w.drinkFrom} onChange={(v) => set('drinkFrom', v)} step="1" />
-        <Num label="Best until (year)" value={w.drinkUntil} onChange={(v) => set('drinkUntil', v)} step="1" />
+        <Num label="Drinks well from" value={w.drinkFrom} onChange={(v) => set('drinkFrom', v)} step="1" />
+        <Num label="Drinks well until" value={w.drinkUntil} onChange={(v) => set('drinkUntil', v)} step="1" />
+        <Num label="Peak from (year)" value={w.peakFrom} onChange={(v) => set('peakFrom', v)} step="1" />
+        <Num label="Peak until (year)" value={w.peakTo} onChange={(v) => set('peakTo', v)} step="1" />
         <Text label="Best time to open" value={w.drinkNote} onChange={(v) => set('drinkNote', v)} />
         <Num label="Expires (year)" value={w.expiresYear} onChange={(v) => set('expiresYear', v)} step="1" />
         <Select label="Expiry source" value={w.expiresSource} options={['label', 'estimate']} onChange={(v) => set('expiresSource', v as WineFields['expiresSource'])} />

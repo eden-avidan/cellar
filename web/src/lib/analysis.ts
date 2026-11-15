@@ -75,6 +75,8 @@ export function analysisToFields(a: WineAnalysis, list: WineList, model = ''): W
     drinkFrom: p.best_time_to_open?.from_year ?? null,
     drinkUntil: p.best_time_to_open?.to_year ?? null,
     drinkNote: p.best_time_to_open?.note ?? '',
+    peakFrom: p.peak?.from_year ?? null,
+    peakTo: p.peak?.to_year ?? null,
     expiresYear: p.expires_at?.year ?? null,
     expiresSource: p.expires_at?.source ?? '',
     typicalPriceIls: p.typical_price_ils,

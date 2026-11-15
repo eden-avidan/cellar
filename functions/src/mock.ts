@@ -31,6 +31,7 @@ export function mockAnalysis(hasRatings: boolean): WineAnalysis {
       serving_temperature_c: { min: 16, max: 18 },
       decant_minutes: 45,
       best_time_to_open: { from_year: year, to_year: year + 6, note: 'Drinking well now after an hour in a decanter.' },
+      peak: { from_year: year + 1, to_year: year + 3 },
       expires_at: { year: year + 9, source: 'estimate' },
       typical_price_ils: 160,
     },
