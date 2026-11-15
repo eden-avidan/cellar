@@ -4,6 +4,7 @@ import { useUser } from '../auth/AuthProvider.tsx';
 import { createWine, displayName, emptyWine, updateWine, useWines, type Wine, type WineFields } from '../data/wines.ts';
 import { analysisToFields, analyzeLabel, callableErrorMessage, ratedWines, type AnalyzeResult } from '../lib/analysis.ts';
 import { preparePhotos, type PreparedPhoto } from '../lib/images.ts';
+import { takePendingPhotos } from '../lib/pendingPhotos.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
 import { WineForm } from './WineForm.tsx';
 
@@ -26,7 +27,8 @@ export function AddWinePage() {
   const [list, setList] = useState<'cellar' | 'wishlist'>(params.get('list') === 'wishlist' ? 'wishlist' : 'cellar');
   const { wines } = useWines(user.uid);
 
-  const [step, setStep] = useState<Step>('capture');
+  const manual = params.get('manual') === '1';
+  const [step, setStep] = useState<Step>(manual ? 'review' : 'capture');
   const [photos, setPhotos] = useState<PreparedPhoto[]>([]);
   const [preparing, setPreparing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,20 +44,27 @@ export function AddWinePage() {
   photosRef.current = photos;
   useEffect(() => () => photosRef.current.forEach((p) => URL.revokeObjectURL(p.previewUrl)), []);
 
-  const addFiles = async (files: FileList | null) => {
+  const addFiles = async (files: FileList | File[] | null) => {
     if (!files?.length) return;
     setPreparing(true);
     setError(null);
     try {
-      const room = MAX_PHOTOS - photos.length;
+      const room = MAX_PHOTOS - photosRef.current.length;
       const prepared = await preparePhotos([...files].slice(0, room));
-      setPhotos((p) => [...p, ...prepared]);
+      setPhotos((p) => [...p, ...prepared].slice(0, MAX_PHOTOS));
     } catch {
       setError("Couldn't open that photo. Try another one.");
     } finally {
       setPreparing(false);
     }
   };
+
+  // Photos chosen in the add menu (camera or library) arrive here.
+  useEffect(() => {
+    const files = takePendingPhotos();
+    if (files.length) void addFiles(files);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, on arrival
+  }, []);
 
   const read = async () => {
     setStep('reading');
@@ -69,12 +78,6 @@ export function AddWinePage() {
       setError(callableErrorMessage(err));
       setStep('capture');
     }
-  };
-
-  const fillManually = () => {
-    setResult(null);
-    setFields(emptyWine(list));
-    setStep('review');
   };
 
   const changeList = (l: 'cellar' | 'wishlist') => {
@@ -107,7 +110,10 @@ export function AddWinePage() {
 
   return (
     <main className="mx-auto max-w-lg pb-36">
-      <PageHeader title={step === 'review' ? 'Check the details' : 'Scan a bottle'} back="/cellar" />
+      <PageHeader
+        title={step === 'review' ? (analysis ? 'Check the details' : 'Add a wine') : 'Scan a bottle'}
+        back={list === 'wishlist' ? '/wishlist' : '/cellar'}
+      />
 
       <div className="px-4">
         <div className="grid grid-cols-2 rounded-xl bg-cream-200 p-1 text-sm font-medium">
@@ -180,9 +186,6 @@ export function AddWinePage() {
                   ? 'Photograph the front label. Adding the back label helps.'
                   : `${photos.length} of ${MAX_PHOTOS} photos`}
             </p>
-            <button type="button" onClick={fillManually} className="text-sm text-wine-700 underline">
-              Skip the photo and fill in the details myself
-            </button>
           </div>
         )}
 

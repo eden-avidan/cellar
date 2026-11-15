@@ -1,0 +1,18 @@
+rules_version = '2';
+
+// LOCAL EMULATOR ONLY: same as storage.rules without the lock to the owner's UID.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /users/{uid}/{allPaths=**} {
+      function isOwner() {
+        return request.auth != null
+          && request.auth.uid == uid;
+      }
+      allow read, delete: if isOwner();
+      allow write: if isOwner()
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

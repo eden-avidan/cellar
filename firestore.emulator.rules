@@ -1,0 +1,23 @@
+rules_version = '2';
+
+// Single-owner app: only the owner's account can read or write, and only under users/{their uid}.
+// LOCAL EMULATOR ONLY: same as firestore.rules without the lock to the owner's UID.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null
+        && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      match /wines/{wineId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && request.resource.data.list in ['cellar', 'wishlist', 'finished']
+          && request.resource.data.size() < 120;
+      }
+    }
+  }
+}

@@ -1,16 +1,26 @@
-import { NavLink, useLocation, useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router';
+import { OPEN_ADD_MENU } from '../lib/pendingPhotos.ts';
+import { AddSheet } from './AddSheet.tsx';
 
 const tab = ({ isActive }: { isActive: boolean }) =>
   `flex flex-1 flex-col items-center gap-0.5 py-1 text-xs font-medium ${isActive ? 'text-wine-800' : 'text-ink-500'}`;
 
 export function TabBar() {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const open = () => setMenuOpen(true);
+    window.addEventListener(OPEN_ADD_MENU, open);
+    return () => window.removeEventListener(OPEN_ADD_MENU, open);
+  }, []);
   // Only on the two list screens; the add/detail/edit screens have their own actions.
   if (pathname !== '/cellar' && pathname !== '/wishlist') return null;
   const list = pathname === '/wishlist' ? 'wishlist' : 'cellar';
 
   return (
+    <>
+    {menuOpen && <AddSheet list={list} onClose={() => setMenuOpen(false)} />}
     <nav className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-ink-200 bg-cream-50/95 backdrop-blur">
       <div className="mx-auto flex max-w-lg items-end px-6 pt-1.5">
         <NavLink to="/cellar" className={tab}>
@@ -23,7 +33,7 @@ export function TabBar() {
         <button
           type="button"
           aria-label="Scan a bottle"
-          onClick={() => navigate(`/add?list=${list}`)}
+          onClick={() => setMenuOpen(true)}
           className="-mt-6 grid size-14 place-items-center rounded-full bg-wine-800 text-white shadow-lg shadow-wine-900/30 active:bg-wine-900"
         >
           <svg viewBox="0 0 24 24" className="size-7" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -39,5 +49,6 @@ export function TabBar() {
         </NavLink>
       </div>
     </nav>
+    </>
   );
 }
