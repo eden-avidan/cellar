@@ -21,7 +21,7 @@ export function drinkStatus(w: Window, year = new Date().getFullYear()): DrinkSt
     return { tone: 'hold', label: peakFrom != null ? `Hold · peak ${range(peakFrom, peakTo)}` : `Hold until ${drinkFrom}` };
   }
   if (peakFrom != null && peakTo != null && year >= peakFrom && year <= peakTo) {
-    return { tone: 'peak', label: year === peakTo ? 'At its peak · last year' : `At its peak · until ${peakTo}` };
+    return { tone: 'peak', label: `At its peak · through ${peakTo}` };
   }
   const lastYear = Math.min(drinkUntil ?? Infinity, expiresYear ?? Infinity);
   if (lastYear !== Infinity && year >= lastYear) return { tone: 'soon', label: 'Drink this year' };
@@ -36,7 +36,7 @@ const range = (from: number, to: number | null) => (to != null && to !== from ? 
 export const toneClass: Record<DrinkTone, string> = {
   hold: 'bg-sky-100 text-sky-800',
   ready: 'bg-emerald-100 text-emerald-800',
-  peak: 'bg-wine-800 text-white',
+  peak: 'bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-amber-950 font-semibold shadow-sm shadow-amber-500/30',
   soon: 'bg-amber-100 text-amber-900',
   past: 'bg-rose-100 text-rose-800',
 };
