@@ -78,7 +78,7 @@ export function PreviousWinesPage() {
                 <BottleArt type={w.wineType} className="h-16 w-12 shrink-0 rounded-lg" />
               )}
               <span className="min-w-0 flex-1">
-                <span className="block truncate font-serif text-[16px] font-semibold">
+                <span className="block truncate tracking-[-0.015em] text-[16px] font-semibold">
                   {wineFlag(w)} {displayName(w)} {w.vintage ?? ''}
                 </span>
                 <span className="flex items-center gap-2 text-sm text-ink-500">

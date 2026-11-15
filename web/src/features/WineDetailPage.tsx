@@ -7,13 +7,15 @@ import { wineFlag } from '../lib/flags.ts';
 import { preparePhotos } from '../lib/images.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
 import { Stars } from '../ui/Stars.tsx';
-import { BottleArt, typeColor } from '../ui/WineCard.tsx';
+import { BottleArt, typeColor, WindowChart } from '../ui/WineCard.tsx';
+import { nowYear } from '../ui/Ribbon.tsx';
+import { ChevronRight, XIcon } from '../ui/Icons.tsx';
 import { TastingSheet } from './TastingSheet.tsx';
 
 function Card({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
   return (
     <section className="rounded-2xl bg-white p-4 ring-1 ring-ink-200/70">
-      <h2 className="mb-2 font-serif text-lg font-semibold">
+      <h2 className="mb-2 text-[17px] font-bold tracking-[-0.01em]">
         {title}
         {hint && <span className="ml-2 font-sans text-xs font-normal text-ink-500">{hint}</span>}
       </h2>
@@ -132,7 +134,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
       <PageHeader
         back={backTo}
         right={
-          <Link to={`/wine/${wine.id}/edit`} className="rounded-full px-3 py-1 font-medium text-wine-800 active:bg-cream-200">
+          <Link to={`/wine/${wine.id}/edit`} className="flex min-h-11 items-center rounded-full px-3 font-medium text-wine-800 active:bg-cream-200">
             Edit
           </Link>
         }
@@ -148,9 +150,11 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
               type="button"
               aria-label="Remove photo"
               onClick={() => confirm('Remove this photo?') && run(() => removePhoto(uid, wine, p))}
-              className="absolute top-2 right-2 grid size-8 place-items-center rounded-full bg-ink-900/60 text-white"
+              className="absolute top-0.5 right-0.5 grid size-11 place-items-center"
             >
-              ✕
+              <span className="grid size-8 place-items-center rounded-full bg-[#15171c]/55 text-[#fff] backdrop-blur-sm">
+                <XIcon className="size-3.5" />
+              </span>
             </button>
           </div>
         ))}
@@ -172,7 +176,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
       <div className="mt-4 flex flex-col gap-3 px-4">
         {/* Title */}
         <div>
-          <h1 className="font-serif text-3xl leading-tight font-semibold text-wine-900">{displayName(wine)}</h1>
+          <h1 className="text-[30px] leading-9 font-bold tracking-[-0.025em] text-balance">{displayName(wine)}</h1>
           <p className="mt-1 text-ink-500">
             {[wineFlag(wine), [wine.vintage, wine.classification, [wine.region, wine.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ')].filter(Boolean).join(' ')}
           </p>
@@ -213,7 +217,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
                   aria-label="One bottle fewer"
                   disabled={busy || !wine.quantity}
                   onClick={() => run(() => updateWine(uid, wine.id, { quantity: Math.max(0, (wine.quantity ?? 1) - 1) }))}
-                  className="grid size-9 place-items-center rounded-full bg-cream-200 text-xl disabled:opacity-40"
+                  className="grid size-11 place-items-center rounded-full bg-cream-200 text-xl disabled:opacity-40"
                 >
                   −
                 </button>
@@ -223,7 +227,7 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
                   aria-label="One bottle more"
                   disabled={busy}
                   onClick={() => run(() => updateWine(uid, wine.id, { quantity: (wine.quantity ?? 0) + 1 }))}
-                  className="grid size-9 place-items-center rounded-full bg-cream-200 text-xl"
+                  className="grid size-11 place-items-center rounded-full bg-cream-200 text-xl"
                 >
                   +
                 </button>
@@ -265,6 +269,9 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
         {/* When to drink */}
         {(wine.drinkFrom || wine.drinkUntil || wine.drinkNote || wine.expiresYear || wine.peakFrom) && (
           <Card title="When to drink">
+            <div className="mb-3 empty:hidden">
+              <WindowChart wine={wine} now={nowYear()} />
+            </div>
             {wine.drinkNote && <p className="mb-2 text-[15px]">{wine.drinkNote}</p>}
             <Row label="At its peak" value={range(wine.peakFrom, wine.peakTo)} />
             <Row label="Drinks well" value={range(wine.drinkFrom, wine.drinkUntil)} />
@@ -318,8 +325,9 @@ function WineDetail({ uid, wine }: { uid: string; wine: Wine }) {
             </p>
           )}
           {wine.scan && (
-            <details className="mt-2 text-xs text-ink-500">
-              <summary className="cursor-pointer">
+            <details className="group mt-2 text-xs text-ink-500">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center gap-1 [&::-webkit-details-marker]:hidden">
+                <ChevronRight className="size-3.5 shrink-0 transition-transform group-open:rotate-90" />
                 Original scan ({wine.scan.model}, {(wine.scan.ms / 1000).toFixed(1)}s, {wine.scan.scannedAt.slice(0, 10)})
               </summary>
               <pre className="mt-2 max-h-80 overflow-auto rounded-lg bg-cream-100 p-2 text-[11px] leading-snug whitespace-pre-wrap">

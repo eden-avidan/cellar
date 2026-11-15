@@ -2,7 +2,7 @@ import { Link, NavLink, useLocation } from 'react-router';
 import { PickPhotosButton } from './PickPhotosButton.tsx';
 
 const tab = ({ isActive }: { isActive: boolean }) =>
-  `flex flex-1 flex-col items-center gap-0.5 py-1 text-xs font-medium ${isActive ? 'text-wine-800' : 'text-ink-500'}`;
+  `flex min-h-11 flex-1 flex-col items-center gap-0.5 py-1 text-[11px] font-semibold ${isActive ? 'text-fg' : 'text-fg3'}`;
 
 export function TabBar() {
   const { pathname } = useLocation();
@@ -11,7 +11,7 @@ export function TabBar() {
   const list = pathname === '/wishlist' ? 'wishlist' : 'cellar';
 
   return (
-    <nav className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-ink-200 bg-cream-50/95 backdrop-blur">
+    <nav className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-line bg-ground/75 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex max-w-lg items-end px-6 pt-1.5">
         <NavLink to="/cellar" className={tab}>
           <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -26,7 +26,7 @@ export function TabBar() {
           <PickPhotosButton
             list={list}
             label="Scan a bottle"
-            className="-mt-6 grid size-14 place-items-center rounded-full bg-wine-800 text-white shadow-lg shadow-wine-900/30 active:bg-wine-900"
+            className="-mt-7 grid size-14 place-items-center rounded-full bg-fg text-ground shadow-[0_8px_20px_rgb(0_0_0/0.24),0_0_0_4px_var(--ground)] transition-transform active:scale-95"
           >
             <svg viewBox="0 0 24 24" className="size-7" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z" />
@@ -36,11 +36,8 @@ export function TabBar() {
           <Link
             to={`/add?list=${list}&manual=1`}
             aria-label="Add manually"
-            className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-ink-500 active:text-wine-800"
+            className="-mb-1.5 flex min-h-11 items-center gap-1 px-3 text-[11px] font-semibold text-fg2 underline decoration-fg3 underline-offset-2 active:text-fg"
           >
-            <svg viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 20h4L19 9l-4-4L4 16z" strokeLinejoin="round" />
-            </svg>
             Manually
           </Link>
         </div>

@@ -1,0 +1,1277 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-15T15:06:32+00:00",
+  "title": "Design System: Cellar",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Cellar Ink",
+        "canonical": "#15171c",
+        "oklch": "oklch(20.5% 0.010 268.2)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242527",
+          "#414245",
+          "#5f6166",
+          "#808289",
+          "#a3a5aa",
+          "#c7c9cd",
+          "#edeef1"
+        ],
+        "cssVar": "--fg",
+        "appearance": "light"
+      },
+      "ink-dark": {
+        "role": "primary",
+        "displayName": "Cellar Ink (dark)",
+        "canonical": "#eceef2",
+        "oklch": "oklch(94.9% 0.006 264.5)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252526",
+          "#414244",
+          "#606164",
+          "#818286",
+          "#a4a5a8",
+          "#c8c9cb",
+          "#eeeef0"
+        ],
+        "cssVar": "--fg",
+        "appearance": "dark"
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Mineral Ground",
+        "canonical": "#f4f6f8",
+        "oklch": "oklch(97.2% 0.003 247.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252526",
+          "#414243",
+          "#606163",
+          "#818284",
+          "#a4a5a6",
+          "#c8c9ca",
+          "#eeeeef"
+        ],
+        "cssVar": "--ground",
+        "appearance": "light"
+      },
+      "ground-dark": {
+        "role": "neutral",
+        "displayName": "Mineral Ground (dark)",
+        "canonical": "#101216",
+        "oklch": "oklch(18.2% 0.009 264.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242526",
+          "#414245",
+          "#5f6165",
+          "#808288",
+          "#a3a5a9",
+          "#c7c9cc",
+          "#edeef0"
+        ],
+        "cssVar": "--ground",
+        "appearance": "dark"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Raised Surface",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ],
+        "cssVar": "--surface",
+        "appearance": "light"
+      },
+      "surface-dark": {
+        "role": "neutral",
+        "displayName": "Raised Surface (dark)",
+        "canonical": "#1a1d23",
+        "oklch": "oklch(23.0% 0.012 264.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242527",
+          "#404246",
+          "#5e6167",
+          "#7f828a",
+          "#a2a5ab",
+          "#c7c9cd",
+          "#edeef1"
+        ],
+        "cssVar": "--surface",
+        "appearance": "dark"
+      },
+      "well": {
+        "role": "neutral",
+        "displayName": "Well",
+        "canonical": "#e7eaee",
+        "oklch": "oklch(93.6% 0.006 255.5)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242526",
+          "#414244",
+          "#5f6164",
+          "#808286",
+          "#a3a5a8",
+          "#c8c9cb",
+          "#eeeef0"
+        ],
+        "cssVar": "--well",
+        "appearance": "light"
+      },
+      "well-dark": {
+        "role": "neutral",
+        "displayName": "Well (dark)",
+        "canonical": "#252930",
+        "oklch": "oklch(28.0% 0.014 261.7)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242527",
+          "#404246",
+          "#5e6168",
+          "#7e838b",
+          "#a1a5ac",
+          "#c6c9ce",
+          "#edeef1"
+        ],
+        "cssVar": "--well",
+        "appearance": "dark"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#dde1e6",
+        "oklch": "oklch(90.8% 0.008 253.9)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242526",
+          "#404244",
+          "#5f6165",
+          "#7f8387",
+          "#a2a5a9",
+          "#c7c9cc",
+          "#edeef0"
+        ],
+        "cssVar": "--line",
+        "appearance": "light"
+      },
+      "line-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "canonical": "#2c3038",
+        "oklch": "oklch(30.9% 0.015 264.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242528",
+          "#404247",
+          "#5e6168",
+          "#7e828c",
+          "#a1a5ad",
+          "#c6c9cf",
+          "#edeef2"
+        ],
+        "cssVar": "--line",
+        "appearance": "dark"
+      },
+      "fg-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#393e47",
+        "oklch": "oklch(36.3% 0.017 262.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242528",
+          "#3f4247",
+          "#5d6169",
+          "#7d838d",
+          "#a1a5ad",
+          "#c6c9cf",
+          "#edeef2"
+        ],
+        "cssVar": "--fg-soft",
+        "appearance": "light"
+      },
+      "fg-soft-dark": {
+        "role": "neutral",
+        "displayName": "Soft Ink (dark)",
+        "canonical": "#cdd1d8",
+        "oklch": "oklch(86.0% 0.011 261.8)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242527",
+          "#404245",
+          "#5f6166",
+          "#7f8289",
+          "#a2a5aa",
+          "#c7c9cd",
+          "#edeef1"
+        ],
+        "cssVar": "--fg-soft",
+        "appearance": "dark"
+      },
+      "fg2": {
+        "role": "neutral",
+        "displayName": "Second Ink",
+        "canonical": "#4f5662",
+        "oklch": "oklch(45.1% 0.022 261.3)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#232529",
+          "#3e4249",
+          "#5c626b",
+          "#7b838f",
+          "#9fa5b0",
+          "#c5c9d1",
+          "#eceff3"
+        ],
+        "cssVar": "--fg2",
+        "appearance": "light"
+      },
+      "fg2-dark": {
+        "role": "neutral",
+        "displayName": "Second Ink (dark)",
+        "canonical": "#a3a9b4",
+        "oklch": "oklch(73.3% 0.017 262.7)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242528",
+          "#3f4247",
+          "#5d6169",
+          "#7d838d",
+          "#a1a5ad",
+          "#c6c9cf",
+          "#edeef2"
+        ],
+        "cssVar": "--fg2",
+        "appearance": "dark"
+      },
+      "fg3": {
+        "role": "neutral",
+        "displayName": "Third Ink",
+        "canonical": "#5f6672",
+        "oklch": "oklch(50.8% 0.021 261.3)",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#232528",
+          "#3f4248",
+          "#5c616b",
+          "#7b838f",
+          "#a0a5af",
+          "#c5c9d1",
+          "#eceff3"
+        ],
+        "cssVar": "--fg3",
+        "appearance": "light"
+      },
+      "fg3-dark": {
+        "role": "neutral",
+        "displayName": "Third Ink (dark)",
+        "canonical": "#8a909b",
+        "oklch": "oklch(65.2% 0.018 262.7)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232528",
+          "#3f4247",
+          "#5d6169",
+          "#7d838d",
+          "#a1a5ae",
+          "#c6c9cf",
+          "#eceef2"
+        ],
+        "cssVar": "--fg3",
+        "appearance": "dark"
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Focus",
+        "canonical": "#5a616d",
+        "oklch": "oklch(49.1% 0.021 261.3)",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#232528",
+          "#3e4248",
+          "#5c616b",
+          "#7b838f",
+          "#9fa5af",
+          "#c5c9d1",
+          "#eceff3"
+        ],
+        "cssVar": "--focus",
+        "appearance": "light"
+      },
+      "focus-dark": {
+        "role": "neutral",
+        "displayName": "Focus (dark)",
+        "canonical": "#a3a9b4",
+        "oklch": "oklch(73.3% 0.017 262.7)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242528",
+          "#3f4247",
+          "#5d6169",
+          "#7d838d",
+          "#a1a5ad",
+          "#c6c9cf",
+          "#edeef2"
+        ],
+        "cssVar": "--focus",
+        "appearance": "dark"
+      },
+      "hold": {
+        "role": "secondary",
+        "displayName": "Slate Hold",
+        "canonical": "#a6b2c0",
+        "oklch": "oklch(75.9% 0.024 252.2)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222529",
+          "#3d4349",
+          "#5a626c",
+          "#788491",
+          "#9da6b1",
+          "#c3cad1",
+          "#ebeff3"
+        ],
+        "cssVar": "--hold",
+        "appearance": "light"
+      },
+      "hold-dark": {
+        "role": "secondary",
+        "displayName": "Slate Hold (dark)",
+        "canonical": "#7d8b9c",
+        "oklch": "oklch(63.1% 0.030 253.3)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#22252a",
+          "#3c434b",
+          "#58626f",
+          "#768494",
+          "#9ba6b4",
+          "#c2cad4",
+          "#eaeff5"
+        ],
+        "cssVar": "--hold",
+        "appearance": "dark"
+      },
+      "ready": {
+        "role": "secondary",
+        "displayName": "Sage Ready",
+        "canonical": "#8db498",
+        "oklch": "oklch(73.3% 0.058 153.6)",
+        "tonalRamp": [
+          "#080c09",
+          "#1e2821",
+          "#35473a",
+          "#4d6955",
+          "#688d72",
+          "#91ae98",
+          "#bbcfc0",
+          "#e6f2e9"
+        ],
+        "cssVar": "--ready",
+        "appearance": "light"
+      },
+      "ready-dark": {
+        "role": "secondary",
+        "displayName": "Sage Ready (dark)",
+        "canonical": "#77a684",
+        "oklch": "oklch(68.2% 0.071 152.9)",
+        "tonalRamp": [
+          "#080c09",
+          "#1c2820",
+          "#324838",
+          "#486b52",
+          "#618f6e",
+          "#8caf95",
+          "#b8d1be",
+          "#e4f3e8"
+        ],
+        "cssVar": "--ready",
+        "appearance": "dark"
+      },
+      "peak": {
+        "role": "secondary",
+        "displayName": "Peak Gold",
+        "canonical": "#d6a63e",
+        "oklch": "oklch(75.1% 0.131 83.3)",
+        "tonalRamp": [
+          "#0f0a03",
+          "#2f230a",
+          "#553e08",
+          "#7d5b00",
+          "#a77a00",
+          "#c39f59",
+          "#dfc696",
+          "#fbedd1"
+        ],
+        "cssVar": "--peak",
+        "appearance": "light"
+      },
+      "peak-dark": {
+        "role": "secondary",
+        "displayName": "Peak Gold (dark)",
+        "canonical": "#e0b04a",
+        "oklch": "oklch(78.2% 0.130 83.4)",
+        "tonalRamp": [
+          "#0f0a03",
+          "#2f230a",
+          "#543e09",
+          "#7d5b00",
+          "#a77a00",
+          "#c3a059",
+          "#dfc696",
+          "#fbedd2"
+        ],
+        "cssVar": "--peak",
+        "appearance": "dark"
+      },
+      "peak-lt": {
+        "role": "secondary",
+        "displayName": "Light Peak Gold",
+        "canonical": "#e6bf63",
+        "oklch": "oklch(82.1% 0.119 86.6)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#2d240d",
+          "#513f11",
+          "#785d12",
+          "#a17d17",
+          "#bea160",
+          "#dbc79a",
+          "#f9edd4"
+        ],
+        "cssVar": "--peak-lt",
+        "appearance": "light"
+      },
+      "peak-lt-dark": {
+        "role": "secondary",
+        "displayName": "Light Peak Gold (dark)",
+        "canonical": "#f0cb72",
+        "oklch": "oklch(85.6% 0.116 87.3)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#2d240e",
+          "#514013",
+          "#775d17",
+          "#9f7d1e",
+          "#bda263",
+          "#dac79c",
+          "#f8eed5"
+        ],
+        "cssVar": "--peak-lt",
+        "appearance": "dark"
+      },
+      "soon": {
+        "role": "secondary",
+        "displayName": "Terracotta Soon",
+        "canonical": "#dc9670",
+        "oklch": "oklch(73.4% 0.099 49.2)",
+        "tonalRamp": [
+          "#100906",
+          "#322017",
+          "#5a3927",
+          "#855338",
+          "#b2704b",
+          "#cc977b",
+          "#e7c0ac",
+          "#ffe9dd"
+        ],
+        "cssVar": "--soon",
+        "appearance": "light"
+      },
+      "soon-dark": {
+        "role": "secondary",
+        "displayName": "Terracotta Soon (dark)",
+        "canonical": "#d4906c",
+        "oklch": "oklch(71.3% 0.097 48.6)",
+        "tonalRamp": [
+          "#100906",
+          "#322017",
+          "#593928",
+          "#845439",
+          "#b1704e",
+          "#cc987d",
+          "#e6c0ad",
+          "#ffe9de"
+        ],
+        "cssVar": "--soon",
+        "appearance": "dark"
+      },
+      "past": {
+        "role": "secondary",
+        "displayName": "Dusty Rose Past",
+        "canonical": "#d49aa3",
+        "oklch": "oklch(74.4% 0.070 8.6)",
+        "tonalRamp": [
+          "#0f090a",
+          "#2f2023",
+          "#55393e",
+          "#7d545b",
+          "#a7717a",
+          "#c4989e",
+          "#e0c0c4",
+          "#fce9eb"
+        ],
+        "cssVar": "--past",
+        "appearance": "light"
+      },
+      "past-dark": {
+        "role": "secondary",
+        "displayName": "Dusty Rose Past (dark)",
+        "canonical": "#c47e8a",
+        "oklch": "oklch(66.9% 0.088 8.5)",
+        "tonalRamp": [
+          "#10090a",
+          "#321f22",
+          "#59373d",
+          "#835059",
+          "#af6c78",
+          "#cb949d",
+          "#e5bdc3",
+          "#ffe8eb"
+        ],
+        "cssVar": "--past",
+        "appearance": "dark"
+      },
+      "t-hold": {
+        "role": "secondary",
+        "displayName": "Hold Text",
+        "canonical": "#4a5d72",
+        "oklch": "oklch(47.1% 0.041 251.2)",
+        "tonalRamp": [
+          "#090b0e",
+          "#20262c",
+          "#39434e",
+          "#546374",
+          "#71849b",
+          "#97a7b9",
+          "#bfcad7",
+          "#e9eff7"
+        ],
+        "cssVar": "--t-hold",
+        "appearance": "light"
+      },
+      "t-hold-dark": {
+        "role": "secondary",
+        "displayName": "Hold Text (dark)",
+        "canonical": "#a9bbd0",
+        "oklch": "oklch(78.5% 0.036 252.3)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#21262b",
+          "#3a434d",
+          "#566371",
+          "#738498",
+          "#99a7b6",
+          "#c1cad6",
+          "#e9eff6"
+        ],
+        "cssVar": "--t-hold",
+        "appearance": "dark"
+      },
+      "t-ready": {
+        "role": "secondary",
+        "displayName": "Ready Text",
+        "canonical": "#3d6c4f",
+        "oklch": "oklch(48.9% 0.070 155.7)",
+        "tonalRamp": [
+          "#080d09",
+          "#1c2820",
+          "#314839",
+          "#476b54",
+          "#608f71",
+          "#8baf97",
+          "#b7d1bf",
+          "#e4f3e9"
+        ],
+        "cssVar": "--t-ready",
+        "appearance": "light"
+      },
+      "t-ready-dark": {
+        "role": "secondary",
+        "displayName": "Ready Text (dark)",
+        "canonical": "#92cfa4",
+        "oklch": "oklch(80.1% 0.087 153.4)",
+        "tonalRamp": [
+          "#070d09",
+          "#1a291f",
+          "#2d4a36",
+          "#416d4f",
+          "#57926a",
+          "#85b292",
+          "#b3d2bb",
+          "#e2f4e6"
+        ],
+        "cssVar": "--t-ready",
+        "appearance": "dark"
+      },
+      "t-peak": {
+        "role": "secondary",
+        "displayName": "Peak Text",
+        "canonical": "#8a6413",
+        "oklch": "oklch(52.9% 0.103 80.5)",
+        "tonalRamp": [
+          "#0f0a05",
+          "#2e2311",
+          "#523f1c",
+          "#795c25",
+          "#a27b33",
+          "#bfa06c",
+          "#dcc6a2",
+          "#f9edd8"
+        ],
+        "cssVar": "--t-peak",
+        "appearance": "light"
+      },
+      "t-peak-dark": {
+        "role": "secondary",
+        "displayName": "Peak Text (dark)",
+        "canonical": "#ecc46b",
+        "oklch": "oklch(83.7% 0.117 85.6)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#2d240d",
+          "#523f13",
+          "#795d15",
+          "#a17c1c",
+          "#bea162",
+          "#dbc79b",
+          "#f9edd4"
+        ],
+        "cssVar": "--t-peak",
+        "appearance": "dark"
+      },
+      "t-soon": {
+        "role": "secondary",
+        "displayName": "Soon Text",
+        "canonical": "#96492a",
+        "oklch": "oklch(49.6% 0.113 41.7)",
+        "tonalRamp": [
+          "#110906",
+          "#341f17",
+          "#5e3627",
+          "#8b4f38",
+          "#b96a4b",
+          "#d3937b",
+          "#ecbdab",
+          "#ffe8dd"
+        ],
+        "cssVar": "--t-soon",
+        "appearance": "light"
+      },
+      "t-soon-dark": {
+        "role": "secondary",
+        "displayName": "Soon Text (dark)",
+        "canonical": "#f0aa86",
+        "oklch": "oklch(79.6% 0.096 48.1)",
+        "tonalRamp": [
+          "#100906",
+          "#322017",
+          "#593928",
+          "#84543a",
+          "#b1704e",
+          "#cc987d",
+          "#e6c0ad",
+          "#ffe9de"
+        ],
+        "cssVar": "--t-soon",
+        "appearance": "dark"
+      },
+      "t-past": {
+        "role": "secondary",
+        "displayName": "Past Text",
+        "canonical": "#9e4c5a",
+        "oklch": "oklch(52.3% 0.110 10.9)",
+        "tonalRamp": [
+          "#110809",
+          "#341e21",
+          "#5e343a",
+          "#8b4b55",
+          "#b96572",
+          "#d39098",
+          "#ecbac0",
+          "#ffe6e9"
+        ],
+        "cssVar": "--t-past",
+        "appearance": "light"
+      },
+      "t-past-dark": {
+        "role": "secondary",
+        "displayName": "Past Text (dark)",
+        "canonical": "#eba0ac",
+        "oklch": "oklch(78.2% 0.090 8.8)",
+        "tonalRamp": [
+          "#10090a",
+          "#321f22",
+          "#59373c",
+          "#845059",
+          "#b06b77",
+          "#cc949c",
+          "#e6bdc3",
+          "#ffe7eb"
+        ],
+        "cssVar": "--t-past",
+        "appearance": "dark"
+      },
+      "on-peak": {
+        "role": "secondary",
+        "displayName": "On Gold",
+        "canonical": "#3a2905",
+        "oklch": "oklch(29.4% 0.056 81.8)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#2a241b",
+          "#4a412f",
+          "#6e5f45",
+          "#937f5d",
+          "#b2a388",
+          "#d3c8b4",
+          "#f4eee2"
+        ],
+        "cssVar": "--on-peak",
+        "appearance": "light"
+      },
+      "on-peak-dark": {
+        "role": "secondary",
+        "displayName": "On Gold (dark)",
+        "canonical": "#2e2003",
+        "oklch": "oklch(25.4% 0.048 82.4)",
+        "tonalRamp": [
+          "#0d0b08",
+          "#29241c",
+          "#494132",
+          "#6c5f49",
+          "#918062",
+          "#b1a38c",
+          "#d1c8b7",
+          "#f3eee4"
+        ],
+        "cssVar": "--on-peak",
+        "appearance": "dark"
+      },
+      "photo-tile": {
+        "role": "neutral",
+        "displayName": "Photo Tile",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "type-red": {
+        "role": "tertiary",
+        "displayName": "Red Wine",
+        "canonical": "#7a2335",
+        "oklch": "oklch(39.8% 0.120 12.4)",
+        "tonalRamp": [
+          "#120809",
+          "#361d20",
+          "#603238",
+          "#8e4952",
+          "#be626f",
+          "#d88d95",
+          "#efb9be",
+          "#ffe5e8"
+        ]
+      },
+      "type-white": {
+        "role": "tertiary",
+        "displayName": "White Wine",
+        "canonical": "#d9c27a",
+        "oklch": "oklch(81.8% 0.095 92.3)",
+        "tonalRamp": [
+          "#0d0b05",
+          "#2a2513",
+          "#4c411f",
+          "#70602b",
+          "#96813a",
+          "#b5a470",
+          "#d5c9a5",
+          "#f5eed9"
+        ]
+      },
+      "type-rose": {
+        "role": "tertiary",
+        "displayName": "Rosé",
+        "canonical": "#e8a0a8",
+        "oklch": "oklch(77.8% 0.086 11.9)",
+        "tonalRamp": [
+          "#10090a",
+          "#311f21",
+          "#59373b",
+          "#835157",
+          "#af6d75",
+          "#ca959a",
+          "#e5bec1",
+          "#ffe8ea"
+        ]
+      },
+      "type-sparkling": {
+        "role": "tertiary",
+        "displayName": "Sparkling",
+        "canonical": "#c9b97a",
+        "oklch": "oklch(78.5% 0.084 95.6)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#292515",
+          "#494224",
+          "#6d6133",
+          "#918245",
+          "#b1a577",
+          "#d2caa9",
+          "#f3efdc"
+        ]
+      },
+      "type-dessert": {
+        "role": "tertiary",
+        "displayName": "Dessert",
+        "canonical": "#c98a2e",
+        "oklch": "oklch(68.1% 0.129 72.0)",
+        "tonalRamp": [
+          "#100a04",
+          "#32210c",
+          "#593b0f",
+          "#84560c",
+          "#b0740d",
+          "#cb9b5e",
+          "#e5c399",
+          "#ffebd3"
+        ]
+      },
+      "type-fortified": {
+        "role": "tertiary",
+        "displayName": "Fortified",
+        "canonical": "#6b3a2a",
+        "oklch": "oklch(40.6% 0.074 38.8)",
+        "tonalRamp": [
+          "#0f0a08",
+          "#30211c",
+          "#553a32",
+          "#7e5649",
+          "#a97362",
+          "#c59a8b",
+          "#e1c1b7",
+          "#fdeae4"
+        ]
+      },
+      "type-orange": {
+        "role": "tertiary",
+        "displayName": "Orange Wine",
+        "canonical": "#d9813a",
+        "oklch": "oklch(68.6% 0.137 56.3)",
+        "tonalRamp": [
+          "#120904",
+          "#361f0e",
+          "#603614",
+          "#8e4f17",
+          "#be691f",
+          "#d79463",
+          "#efbe9c",
+          "#ffe8d5"
+        ]
+      },
+      "type-unknown": {
+        "role": "tertiary",
+        "displayName": "Unknown Type",
+        "canonical": "#a6b2c0",
+        "oklch": "oklch(75.9% 0.024 252.2)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222529",
+          "#3d4349",
+          "#5a626c",
+          "#788491",
+          "#9da6b1",
+          "#c3cad1",
+          "#ebeff3"
+        ]
+      }
+    },
+    "colorModes": {
+      "mechanism": "Custom properties on :root in src/index.css; dark values apply under @media (prefers-color-scheme: dark). Frontmatter base keys are light, -dark keys are dark.",
+      "source": "src/index.css"
+    },
+    "legacyAliases": {
+      "white": "surface",
+      "wine-50": "well",
+      "wine-100": "well",
+      "wine-200": "line",
+      "wine-500": "focus",
+      "wine-600": "fg",
+      "wine-700": "fg",
+      "wine-800": "fg",
+      "wine-900": "fg",
+      "cream-50": "surface",
+      "cream-100": "ground",
+      "cream-200": "well",
+      "ink-200": "line",
+      "ink-300": "fg3",
+      "ink-500": "fg2",
+      "ink-700": "fg-soft",
+      "ink-900": "fg",
+      "rose-50": "color-mix(in oklab, past 16%, surface)",
+      "rose-100": "color-mix(in oklab, past 26%, surface)",
+      "rose-700": "t-past",
+      "rose-800": "t-past",
+      "red-700": "t-past",
+      "amber-50": "color-mix(in oklab, peak 14%, surface)",
+      "amber-100": "color-mix(in oklab, peak 22%, surface)",
+      "amber-800": "t-peak",
+      "amber-900": "t-peak",
+      "font-serif": "Bricolage Grotesque Variable (same as font-sans)"
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "List title (Cellar, Wishlist)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Wine name on the bottle page; balanced wrap."
+      },
+      "headline-sm": {
+        "displayName": "Headline Small",
+        "purpose": "Wine name in the Open tonight card; balanced wrap."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "List section headers, Open tonight, sheet titles."
+      },
+      "title-sm": {
+        "displayName": "Title Small",
+        "purpose": "Detail card headings, page header title."
+      },
+      "row-title": {
+        "displayName": "Row Title",
+        "purpose": "Bottle name in a list row, one line, truncated."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default copy, buttons, all inputs (16px avoids iOS focus zoom)."
+      },
+      "body-sm": {
+        "displayName": "Body Small",
+        "purpose": "Notes and drinking notes."
+      },
+      "callout": {
+        "displayName": "Callout",
+        "purpose": "Tonight advice, label/value rows, tags, status chips."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Filter chips and the segment."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Row meta and stage-toned status lines; tabular figures."
+      },
+      "axis": {
+        "displayName": "Axis",
+        "purpose": "Axis years, Now label, tab labels; tabular figures."
+      },
+      "_font": {
+        "family": "Bricolage Grotesque Variable",
+        "source": "@fontsource-variable/bricolage-grotesque/opsz.css (self-hosted)",
+        "axes": [
+          "wght",
+          "opsz"
+        ],
+        "fontOpticalSizing": "auto",
+        "numerals": "font-variant-numeric: tabular-nums lining-nums via the tnum utility"
+      }
+    },
+    "shadows": [
+      {
+        "name": "scan-lift",
+        "value": "0 8px 20px rgb(0 0 0 / 0.24), 0 0 0 4px var(--ground)",
+        "purpose": "The centred scan button only; the ground collar cuts it out of the tab bar."
+      },
+      {
+        "name": "segment-thumb",
+        "value": "0 1px 3px rgb(0 0 0 / 0.12)",
+        "purpose": "Selected half of the segment."
+      },
+      {
+        "name": "peak-halo",
+        "value": "0 0 0 3px color-mix(in oklab, var(--peak) 22%, transparent)",
+        "purpose": "Peak pill on the large ribbon."
+      },
+      {
+        "name": "peak-chip-glow",
+        "value": "0 1px 3px 0 color-mix(in oklab, var(--peak) 30%, transparent), 0 1px 2px -1px color-mix(in oklab, var(--peak) 30%, transparent)",
+        "purpose": "Gold status chip."
+      },
+      {
+        "name": "photo",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "Full-size photos on the bottle page."
+      }
+    ],
+    "materials": [
+      {
+        "name": "translucent-chrome",
+        "value": "background: color-mix(in oklab, var(--ground) 75-80%, transparent); backdrop-filter: blur(24px) saturate(1.5)",
+        "purpose": "Sticky page header (80%) and tab bar (75%)."
+      },
+      {
+        "name": "hairline-ring",
+        "value": "box-shadow: 0 0 0 1px color-mix(in oklab, var(--line) 70%, transparent)",
+        "purpose": "Cards and fields separate from the ground with a ring, not a shadow."
+      },
+      {
+        "name": "stage-tint",
+        "value": "background: stage at 12-14%; ring: 1px stage at 30-40%",
+        "purpose": "Open tonight card, tinted by the bottle's own stage."
+      },
+      {
+        "name": "ribbon-fade",
+        "value": "mask-image: linear-gradient(90deg, transparent, #000 6px, #000 calc(100% - 6px), transparent)",
+        "purpose": "Row ribbons fade at both ends of the 112px track."
+      },
+      {
+        "name": "clean-photo",
+        "value": "background: #fff; transform: scale(1.18); dark: filter: brightness(.94)",
+        "purpose": "Clean product photos cropped to the bottle and kept on white."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Tailwind default transition: scan-button press, disclosure chevron rotation."
+      },
+      {
+        "name": "press-scale",
+        "value": "transform: scale(0.95)",
+        "purpose": "Scan button :active."
+      },
+      {
+        "name": "press-fade",
+        "value": "opacity: 0.8 (cards), 0.6 (back button)",
+        "purpose": "Touch feedback on cards and header buttons."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation-duration and transition-duration 0.01ms under prefers-reduced-motion: reduce",
+        "purpose": "Global kill switch."
+      },
+      {
+        "name": "no-load-motion",
+        "value": "none",
+        "purpose": "By choice, no authored entrance animation."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "column",
+        "value": "512px",
+        "purpose": "max-width of the single centred column (max-w-lg)."
+      },
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Filter chips wrap instead of scrolling horizontally."
+      }
+    ],
+    "chart": {
+      "listAxis": "[floor(now) - 2, 10]: two years back, eight ahead, shared by every row in a list",
+      "ribbonTrack": "112px (TRACK, w-28) in rows and section headers",
+      "rowRibbon": {
+        "bar": "6px",
+        "peak": "10px",
+        "halo": "none"
+      },
+      "largeRibbon": {
+        "box": "24px",
+        "bar": "14px",
+        "peak": "22px",
+        "halo": "peak-halo"
+      },
+      "nowLine": "2px ink, row to row edge to edge (-1px overlap), continued through following section headers above the Now label",
+      "stageBlend": "min(3.5%, 0.25 years / span) blend at each stage change",
+      "peakGradient": "linear-gradient(90deg, var(--peak-lt), var(--peak) 35%, var(--peak) 65%, var(--peak-lt))",
+      "stageOrder": [
+        "hold",
+        "ready",
+        "peak",
+        "ready",
+        "past"
+      ],
+      "groupOrder": [
+        "Past its best",
+        "Drink soon",
+        "At its peak",
+        "Ready",
+        "Hold",
+        "No window yet"
+      ],
+      "openByChoice": [
+        "No year labels left of Now on row axes",
+        "No authored load motion"
+      ]
+    },
+    "touchTarget": "44px minimum (min-h-11 / size-11)"
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink-filled action, paired 50/50 with a secondary (Open a bottle / Rate).",
+      "html": "<button class=\"ds-btn-primary\">Open a bottle</button>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-btn-primary{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;background:var(--fg,#15171c);color:var(--surface,#fff);border:0;border-radius:16px;padding:12px 20px;min-height:48px;font-size:16px;font-weight:600;transition:background .15s cubic-bezier(.4,0,.2,1),opacity .15s} .ds-btn-primary:active{opacity:.8} .ds-btn-primary:focus-visible{outline:2px solid var(--focus,#5a616d);outline-offset:2px} .ds-btn-primary:disabled{opacity:.5}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Surface button with a hairline ring, beside the primary.",
+      "html": "<button class=\"ds-btn-secondary\">Rate</button>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-btn-secondary{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;background:var(--surface,#fff);color:var(--fg,#15171c);border:0;box-shadow:inset 0 0 0 1px var(--line,#dde1e6);border-radius:16px;padding:12px 20px;min-height:48px;font-size:16px;font-weight:600;transition:background .15s} .ds-btn-secondary:active{background:var(--well,#e7eaee)} .ds-btn-secondary:focus-visible{outline:2px solid var(--focus,#5a616d);outline-offset:2px}"
+    },
+    {
+      "name": "Scan Button",
+      "kind": "button",
+      "refersTo": "scan-button",
+      "description": "The centred 56px ink camera button raised out of the tab bar.",
+      "html": "<button class=\"ds-scan\" aria-label=\"Scan a bottle\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/></svg></button>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-scan{display:grid;place-items:center;width:56px;height:56px;border:0;border-radius:9999px;background:var(--fg,#15171c);color:var(--ground,#f4f6f8);box-shadow:0 8px 20px rgb(0 0 0/.24),0 0 0 4px var(--ground,#f4f6f8);transition:transform .15s cubic-bezier(.4,0,.2,1)} .ds-scan:active{transform:scale(.95)} .ds-scan:focus-visible{outline:2px solid var(--focus,#5a616d);outline-offset:6px}"
+    },
+    {
+      "name": "Filter Chips",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "Sort, Ready to drink and wine-type filters; active chip fills with ink.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\">Drink soonest ▾</button><span class=\"ds-chip-sep\"></span><button class=\"ds-chip is-on\" aria-pressed=\"true\">All</button><button class=\"ds-chip\">Red</button><button class=\"ds-chip\">White</button></div>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-chips{display:flex;gap:8px;align-items:center} .ds-chip{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;height:36px;padding:0 14px;border:0;border-radius:9999px;background:var(--well,#e7eaee);color:var(--fg2,#4f5662);font-size:13px;font-weight:600} .ds-chip:active{background:var(--line,#dde1e6)} .ds-chip.is-on{background:var(--fg,#15171c);color:var(--ground,#f4f6f8)} .ds-chip:focus-visible{outline:2px solid var(--focus,#5a616d);outline-offset:2px} .ds-chip-sep{width:1px;height:20px;background:var(--line,#dde1e6)}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "40px well with magnifier; the whole well takes the focus ring.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"7\" cy=\"7\" r=\"5.2\"/><path d=\"M11 11l3.6 3.6\"/></svg><input type=\"search\" placeholder=\"Search wines, grapes, regions\"></label>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-search{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:12px;background:var(--well,#e7eaee);color:var(--fg3,#5f6672)} .ds-search:focus-within{box-shadow:0 0 0 2px var(--focus,#5a616d)} .ds-search input{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:16px;color:var(--fg,#15171c)} .ds-search input::placeholder{color:var(--fg3,#5f6672)}"
+    },
+    {
+      "name": "Segment",
+      "kind": "nav",
+      "refersTo": "segment-track",
+      "description": "In the cellar / Finished switch: well track, selected half on the surface.",
+      "html": "<div class=\"ds-seg\" role=\"tablist\"><button role=\"tab\" aria-selected=\"true\" class=\"is-on\">In the cellar</button><button role=\"tab\">Finished</button></div>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-seg{display:grid;grid-template-columns:1fr 1fr;height:36px;padding:2px;border-radius:10px;background:var(--well,#e7eaee)} .ds-seg button{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;border:0;border-radius:8px;background:transparent;color:var(--fg2,#4f5662);font-size:13px;font-weight:600} .ds-seg button.is-on{background:var(--surface,#fff);color:var(--fg,#15171c);box-shadow:0 1px 3px rgb(0 0 0/.12)} .ds-seg button:focus-visible{outline:2px solid var(--focus,#5a616d)}"
+    },
+    {
+      "name": "Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-bar",
+      "description": "Translucent ground bar: Cellar, centred scan button with Manually link, Wishlist.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab is-on\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M8 3h8c.3 3.5.6 6.5-.8 8.6-.8 1.3-2 1.9-3.2 2-1.2-.1-2.4-.7-3.2-2C7.4 9.5 7.7 6.5 8 3z\"/><path d=\"M12 14v6M8.5 20.5h7\" stroke-linecap=\"round\"/></svg>Cellar</a><div class=\"ds-tab-mid\"><span class=\"ds-tab-scan\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/></svg></span><a class=\"ds-tab-manual\">Manually</a></div><a class=\"ds-tab\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z\" stroke-linejoin=\"round\"/></svg>Wishlist</a></nav>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-tabs{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;display:flex;align-items:flex-end;padding:6px 24px 12px;margin-top:32px;border-top:1px solid var(--line,#dde1e6);background:color-mix(in oklab,var(--ground,#f4f6f8) 75%,transparent);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5)} .ds-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:44px;padding:4px 0;font-size:11px;font-weight:600;color:var(--fg3,#5f6672);text-decoration:none;cursor:pointer} .ds-tab.is-on{color:var(--fg,#15171c)} .ds-tab-mid{display:flex;flex-direction:column;align-items:center;gap:2px} .ds-tab-scan{display:grid;place-items:center;width:56px;height:56px;margin-top:-28px;border-radius:9999px;background:var(--fg,#15171c);color:var(--ground,#f4f6f8);box-shadow:0 8px 20px rgb(0 0 0/.24),0 0 0 4px var(--ground,#f4f6f8)} .ds-tab-manual{min-height:44px;display:flex;align-items:center;padding:0 12px;margin-bottom:-6px;font-size:11px;font-weight:600;color:var(--fg2,#4f5662);text-decoration:underline;text-decoration-color:var(--fg3,#5f6672);text-underline-offset:2px}"
+    },
+    {
+      "name": "Drinking-window Ribbon",
+      "kind": "custom",
+      "refersTo": "ribbon-large",
+      "description": "Signature: a bottle's life as stage bands on a year axis, gold peak pill, ink now line, tabular legend.",
+      "html": "<div class=\"ds-rib\"><div class=\"ds-rib-box\"><i class=\"ds-rib-bar\"></i><i class=\"ds-rib-peak\"></i><i class=\"ds-rib-now\"></i></div><div class=\"ds-rib-axis\"><span style=\"left:0\">2016</span><span class=\"pk\" style=\"left:43%\">Peak 2021–25</span><span class=\"nw\" style=\"left:72.5%\">Now</span><span style=\"right:0\">2030</span></div></div>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-rib{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;width:100%;max-width:360px} .ds-rib-box{position:relative;height:24px} .ds-rib-box i{position:absolute;top:50%;transform:translateY(-50%);border-radius:9999px} .ds-rib-bar{left:0;width:100%;height:14px;background:linear-gradient(90deg,var(--hold,#a6b2c0) 3.5%,var(--hold,#a6b2c0) 18%,var(--ready,#8db498) 25%,var(--ready,#8db498) 68%,var(--ready,#8db498) 80%,var(--past,#d49aa3) 87%,var(--past,#d49aa3) 100%)} .ds-rib-peak{left:36%;width:26%;height:22px;background:linear-gradient(90deg,var(--peak-lt,#e6bf63),var(--peak,#d6a63e) 35%,var(--peak,#d6a63e) 65%,var(--peak-lt,#e6bf63));box-shadow:0 0 0 3px color-mix(in oklab,var(--peak,#d6a63e) 22%,transparent)} .ds-rib-now{left:72.5%;top:0!important;bottom:0;transform:none!important;width:2px;margin-left:-1px;background:var(--fg,#15171c)} .ds-rib-axis{position:relative;height:16px;margin-top:4px;font-size:12px;line-height:16px;color:var(--fg3,#5f6672);font-variant-numeric:tabular-nums lining-nums} .ds-rib-axis span{position:absolute} .ds-rib-axis .pk,.ds-rib-axis .nw{transform:translateX(-50%);white-space:nowrap} .ds-rib-axis .pk{font-weight:600;color:var(--t-peak,#8a6413)} .ds-rib-axis .nw{font-weight:700;color:var(--fg,#15171c)}"
+    },
+    {
+      "name": "Wine Row",
+      "kind": "card",
+      "refersTo": "wine-row",
+      "description": "One bottle per row: white photo tile, name, meta, stage-toned status, ribbon track with the shared now line.",
+      "html": "<div class=\"ds-rows\"><a class=\"ds-row\"><span class=\"ds-thumb\"><svg viewBox=\"0 0 40 100\" height=\"42\"><path d=\"M16 4h8v22c0 3 6 7 6 14v52a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V40c0-7 6-11 6-14z\" fill=\"#7a2335\"/><rect x=\"12\" y=\"52\" width=\"16\" height=\"22\" rx=\"2\" fill=\"#f4f6f8\"/></svg></span><span class=\"ds-row-txt\"><b>Reserve Kerem 13</b><small>Somek Family Vineyards · 2016</small><em class=\"soon\">Drink by 2027</em></span><span class=\"ds-track\"><i class=\"b\"></i><i class=\"p\"></i><i class=\"n\"></i></span></a><a class=\"ds-row\"><span class=\"ds-thumb\"><svg viewBox=\"0 0 40 100\" height=\"42\"><path d=\"M16 4h8v22c0 3 6 7 6 14v52a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V40c0-7 6-11 6-14z\" fill=\"#d9c27a\"/><rect x=\"12\" y=\"52\" width=\"16\" height=\"22\" rx=\"2\" fill=\"#f4f6f8\"/></svg></span><span class=\"ds-row-txt\"><b>Kikè</b><small>Fina · 2024</small><em class=\"peak\">At its peak · through 2026</em></span><span class=\"ds-track\"><i class=\"b\" style=\"left:20%;width:30%\"></i><i class=\"p\" style=\"left:24%;width:10%\"></i><i class=\"n\"></i></span></a></div>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-rows{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;max-width:390px} .ds-row{display:flex;align-items:stretch;gap:12px;margin:0 16px;color:var(--fg,#15171c);text-decoration:none} .ds-row+.ds-row{border-top:1px solid var(--line,#dde1e6)} .ds-row:active{background:var(--well,#e7eaee)} .ds-thumb{display:grid;place-items:center;flex:none;width:44px;height:56px;margin:8px 0;border-radius:8px;overflow:hidden;background:#fff} .ds-row-txt{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:8px 0} .ds-row-txt b{font-size:15px;line-height:20px;font-weight:600;letter-spacing:-.01em} .ds-row-txt small{font-size:12px;line-height:16px;color:var(--fg2,#4f5662);font-variant-numeric:tabular-nums} .ds-row-txt em{font-style:normal;margin-top:2px;font-size:12px;line-height:16px;font-weight:500} .ds-row-txt .soon{color:var(--t-soon,#96492a)} .ds-row-txt .peak{color:var(--t-peak,#8a6413)} .ds-track{position:relative;flex:none;width:112px} .ds-track i{position:absolute;top:50%;transform:translateY(-50%);border-radius:9999px} .ds-track .b{left:0;width:45%;height:6px;background:linear-gradient(90deg,var(--hold,#a6b2c0) 30%,var(--ready,#8db498) 40%,var(--ready,#8db498) 70%,var(--past,#d49aa3) 80%)} .ds-track .p{left:8%;width:12%;height:10px;background:var(--peak,#d6a63e)} .ds-track .n{top:-1px;bottom:-1px;transform:none;left:28.7%;width:2px;margin-left:-1px;border-radius:0;background:var(--fg,#15171c)}"
+    },
+    {
+      "name": "Peak Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip-peak",
+      "description": "The one solid-gold element: status chip for a bottle at its peak.",
+      "html": "<span class=\"ds-status peak\">At its peak · through 2026</span> <span class=\"ds-status ready\">Ready · until 2029</span> <span class=\"ds-status hold\">Hold until 2028</span>",
+      "css": ":host{--ground:#f4f6f8;--surface:#fff;--well:#e7eaee;--line:#dde1e6;--fg:#15171c;--fg2:#4f5662;--fg3:#5f6672;--focus:#5a616d;--hold:#a6b2c0;--ready:#8db498;--peak:#d6a63e;--peak-lt:#e6bf63;--soon:#dc9670;--past:#d49aa3;--t-ready:#3d6c4f;--t-peak:#8a6413;--t-soon:#96492a;--on-peak:#3a2905} .ds-status{font-family:'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;display:inline-block;padding:4px 10px;border-radius:9999px;font-size:14px;line-height:20px;font-weight:500} .ds-status.peak{background:linear-gradient(90deg,var(--peak-lt,#e6bf63),var(--peak,#d6a63e),var(--peak-lt,#e6bf63));color:var(--on-peak,#3a2905);font-weight:600;box-shadow:0 1px 3px 0 color-mix(in oklab,var(--peak,#d6a63e) 30%,transparent),0 1px 2px -1px color-mix(in oklab,var(--peak,#d6a63e) 30%,transparent)} .ds-status.ready{background:color-mix(in oklab,var(--ready,#8db498) 25%,var(--surface,#fff));color:var(--t-ready,#3d6c4f)} .ds-status.hold{background:color-mix(in oklab,var(--hold,#a6b2c0) 20%,var(--surface,#fff));color:#4a5d72}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Vintage Chart",
+    "overview": "Cellar is drawn the way a wine merchant's vintage chart is printed: every bottle is one row, its life is a coloured ribbon on a shared year axis, and a single vertical \"now\" line runs down through every row. \"What do I open?\" is answered by looking down that one line. The surface brief for the build is `.impeccable/surfaces/cellar.md`; this file records what the build actually shipped.\n\nThe world is cool and quiet so the chart can speak. A mineral grey-blue ground, near-black ink as the only tint, and no brand colour at all; the five drinking stages (hold, ready, peak, drink soon, past) carry every bit of chroma on screen. One variable grotesque, Bricolage Grotesque, does all the type work through weight and optical size, with tabular figures wherever a year appears. Bottle photos are the only imagery: small portrait tiles, always on white.\n\nDensity is a phone list: rows about 72px tall, inset 16px from the screen edges, grouped by urgency under section headers that double as the axis legend. Light and dark follow the phone's `prefers-color-scheme`; every colour is a custom property with a light and a dark value, so nothing is hard-coded to one appearance. The interface is still at load (no authored entrance motion, by choice); motion is limited to press feedback and disclosure.",
+    "keyCharacteristics": [
+      "One shared year axis per list, one continuous \"now\" line across rows and section headers.",
+      "Stage colours are the only chroma; ink is the only tint for actions and selection.",
+      "Gold means \"at its best\" and is never decoration.",
+      "One family (Bricolage Grotesque Variable, opsz axis), tabular lining figures for years and counts.",
+      "Bottle photo tiles stay white in both appearances.",
+      "Translucent ground-coloured chrome (header, tab bar) with a centred ink scan button."
+    ],
+    "rules": [
+      {
+        "name": "The Only Tint Rule",
+        "body": "Ink is the one colour that marks action and selection. There is no accent hue, no brand colour, and no tinted button; if a control needs to stand out, it is filled with ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stage Owns Chroma Rule",
+        "body": "Every saturated colour on screen means a drinking stage. A colour that does not say hold, ready, peak, soon or past does not belong on the ground.",
+        "section": "colors"
+      },
+      {
+        "name": "The Gold Means Best Rule",
+        "body": "Gold appears only where it means \"at its best\": the peak stage (ribbon pill, status chip, status text) and the fill of the owner's own star ratings. Never as decoration, a border, a button or a highlight colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Years Rule",
+        "body": "Any year, count, price or bottle quantity is set with tabular lining figures (`tnum` utility) so years align down the chart.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Bricolage Grotesque Variable sets every word. Emphasis is weight and size; there are no uppercase eyebrows, letter-spaced labels or second faces.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ring Not Shadow Rule",
+        "body": "Cards and fields separate from the ground with a 1px hairline ring (line at about 70%), never a drop shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use the semantic colour names (`ground`, `surface`, `well`, `line`, `fg`, `fg2`, `fg3`, the stage names and their `t-*` text tones) in new code, and define any new colour as a custom property with a light and a dark value.",
+      "**Do** put every year, count and price in tabular lining figures.",
+      "**Do** draw a bottle's drinking status as a ribbon on a shared axis with one now line when bottles are compared; text status lines use the stage text tone.",
+      "**Do** keep rows inset 16px with dividers on the content edges, and keep the ribbon track at 112px in every row and section header so the now line stays continuous.",
+      "**Do** keep clean bottle photos on white tiles in both appearances.",
+      "**Do** give every tappable control a 44pt hit area, padding invisible hit area around small marks.",
+      "**Do** keep motion to press feedback (scale 95% on the scan button, opacity or well fill on rows and cards) and disclosure rotation, all disabled under `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "**Don't** introduce an accent or brand colour, or tint a button with anything but ink.",
+      "**Don't** use gold for anything other than the peak stage and the owner's star fills.",
+      "**Don't** use the legacy `wine-*`, `cream-*`, `ink-*` or `white` names in new code; they are aliases kept for older screens.",
+      "**Don't** fall back to a stacked card feed with status pills for the bottle list; the list is rows on a chart.",
+      "**Don't** add a second typeface, uppercase eyebrows or letter-spaced labels.",
+      "**Don't** add drop shadows to cards or fields; separate them with tone and a hairline ring.",
+      "**Don't** add year labels to the left of Now on row axes, or authored entrance animation on load; both were left out deliberately."
+    ]
+  }
+}

@@ -23,8 +23,8 @@ export function Sheet({ title, onClose, children }: { title: string; onClose: ()
       >
         <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-ink-200" />
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-serif text-xl font-semibold">{title}</h2>
-          <button type="button" onClick={onClose} className="rounded-full px-3 py-1 text-sm text-ink-500 active:bg-cream-200">
+          <h2 className="tracking-[-0.015em] text-xl font-semibold">{title}</h2>
+          <button type="button" onClick={onClose} className="flex min-h-11 items-center rounded-full px-3 text-sm text-ink-500 active:bg-cream-200">
             Close
           </button>
         </div>

@@ -6,6 +6,7 @@ import { analysisToFields, analyzeLabel, callableErrorMessage, ratedWines, type 
 import { preparePhotos, type PreparedPhoto } from '../lib/images.ts';
 import { takePendingPhotos } from '../lib/pendingPhotos.ts';
 import { PageHeader } from '../ui/PageHeader.tsx';
+import { ChevronRight, GlassIcon, XIcon } from '../ui/Icons.tsx';
 import { WineForm } from './WineForm.tsx';
 
 const MAX_PHOTOS = 3;
@@ -139,9 +140,11 @@ export function AddWinePage() {
                     type="button"
                     aria-label="Remove photo"
                     onClick={() => setPhotos((ps) => ps.filter((x) => x !== p))}
-                    className="absolute -top-2 -right-2 grid size-7 place-items-center rounded-full bg-ink-900 text-sm text-white"
+                    className="absolute -top-3.5 -right-3.5 grid size-11 place-items-center"
                   >
-                    ✕
+                    <span className="grid size-7 place-items-center rounded-full bg-fg text-ground shadow-sm">
+                      <XIcon className="size-3" />
+                    </span>
                   </button>
                 )}
               </div>
@@ -180,7 +183,7 @@ export function AddWinePage() {
         {step === 'reading' && (
           <div className="mt-10 flex flex-col items-center gap-4 text-center">
             <div className="size-10 animate-spin rounded-full border-4 border-wine-100 border-t-wine-800" />
-            <p className="font-serif text-lg">Reading the label…</p>
+            <p className="tracking-[-0.015em] text-lg">Reading the label…</p>
             <p className="text-sm text-ink-500">Usually takes a few seconds.</p>
           </div>
         )}
@@ -193,12 +196,12 @@ export function AddWinePage() {
                 replace
                 className="flex items-center gap-3 rounded-2xl bg-wine-50 px-4 py-3 text-sm active:bg-wine-100"
               >
-                <span className="text-2xl">🍷</span>
+                <GlassIcon className="size-7 shrink-0 text-fg2" />
                 <span className="flex-1">
                   <span className="block font-semibold text-wine-900">Had this wine before?</span>
                   <span className="text-ink-700">Pick it from your wines instead of typing it in.</span>
                 </span>
-                <span className="text-wine-800">›</span>
+                <ChevronRight className="size-4 shrink-0 text-fg3" />
               </Link>
             )}
             {analysis && !analysis.is_wine_label && (
@@ -206,7 +209,7 @@ export function AddWinePage() {
             )}
             {analysis?.is_wine_label && (
               <div className="rounded-2xl bg-white p-4 ring-1 ring-ink-200/70">
-                <p className="font-serif text-xl font-semibold">
+                <p className="tracking-[-0.015em] text-xl font-semibold">
                   {displayName(fields)} {fields.vintage ?? ''}
                 </p>
                 <p className="mt-1 text-sm text-ink-500">

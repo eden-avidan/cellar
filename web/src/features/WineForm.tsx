@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { FOOD_PAIRINGS, WINE_TYPES, type Grape, type WineFields } from '../data/wines.ts';
+import { XIcon } from '../ui/Icons.tsx';
 import { countryCodeFor, wineFlag } from '../lib/flags.ts';
 
 type Set = <K extends keyof WineFields>(key: K, value: WineFields[K]) => void;
@@ -98,9 +99,9 @@ function GrapesEditor({ value, onChange }: { value: Grape[]; onChange: (v: Grape
             type="button"
             aria-label={`Remove grape ${i + 1}`}
             onClick={() => onChange(value.filter((_, j) => j !== i))}
-            className="grid size-9 shrink-0 place-items-center rounded-full text-ink-500 active:bg-cream-200"
+            className="grid size-11 shrink-0 place-items-center rounded-full text-ink-500 active:bg-cream-200"
           >
-            ✕
+            <XIcon />
           </button>
         </div>
       ))}
@@ -161,7 +162,7 @@ function Section({ title, hint, open = true, children }: { title: string; hint?:
     <details open={open} className="group rounded-2xl bg-cream-50 p-4 ring-1 ring-ink-200/70">
       <summary className="flex cursor-pointer list-none items-center justify-between">
         <span>
-          <span className="font-serif text-lg font-semibold">{title}</span>
+          <span className="tracking-[-0.015em] text-lg font-semibold">{title}</span>
           {hint && <span className="ml-2 text-xs text-ink-500">{hint}</span>}
         </span>
         <svg viewBox="0 0 24 24" className="size-5 text-ink-500 transition group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth="2">

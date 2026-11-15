@@ -1,27 +1,123 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/bricolage-grotesque/opsz.css';
+
+/*
+ * Cellar: a vintage chart. Cool mineral ground, near-black ink as the only tint; the drinking
+ * stages (hold, ready, peak, past) carry the colour. Every value follows the phone's light/dark setting.
+ */
+:root {
+  --ground: #f4f6f8;
+  --surface: #ffffff;
+  --well: #e7eaee;
+  --line: #dde1e6;
+  --fg: #15171c;
+  --fg-soft: #393e47;
+  --fg2: #4f5662;
+  --fg3: #5f6672;
+  --focus: #5a616d;
+
+  --hold: #a6b2c0;
+  --ready: #8db498;
+  --peak: #d6a63e;
+  --peak-lt: #e6bf63;
+  --soon: #dc9670;
+  --past: #d49aa3;
+  --t-hold: #4a5d72;
+  --t-ready: #3d6c4f;
+  --t-peak: #8a6413;
+  --t-soon: #96492a;
+  --t-past: #9e4c5a;
+  --on-peak: #3a2905;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #101216;
+    --surface: #1a1d23;
+    --well: #252930;
+    --line: #2c3038;
+    --fg: #eceef2;
+    --fg-soft: #cdd1d8;
+    --fg2: #a3a9b4;
+    --fg3: #8a909b;
+    --focus: #a3a9b4;
+
+    --hold: #7d8b9c;
+    --ready: #77a684;
+    --peak: #e0b04a;
+    --peak-lt: #f0cb72;
+    --soon: #d4906c;
+    --past: #c47e8a;
+    --t-hold: #a9bbd0;
+    --t-ready: #92cfa4;
+    --t-peak: #ecc46b;
+    --t-soon: #f0aa86;
+    --t-past: #eba0ac;
+    --on-peak: #2e2003;
+
+    color-scheme: dark;
+  }
+}
 
 @theme {
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'New York', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: 'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  --font-serif: 'Bricolage Grotesque Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
-  --color-wine-50: #fbf1f3;
-  --color-wine-100: #f5dde2;
-  --color-wine-200: #e9b5c0;
-  --color-wine-500: #b23a48;
-  --color-wine-600: #962d3e;
-  --color-wine-700: #7a2335;
-  --color-wine-800: #651d2e;
-  --color-wine-900: #5b1a2b;
+  /* Semantic names for new code. */
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-well: var(--well);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-fg2: var(--fg2);
+  --color-fg3: var(--fg3);
+  --color-hold: var(--hold);
+  --color-ready: var(--ready);
+  --color-peak: var(--peak);
+  --color-peak-lt: var(--peak-lt);
+  --color-soon: var(--soon);
+  --color-past: var(--past);
+  --color-t-hold: var(--t-hold);
+  --color-t-ready: var(--t-ready);
+  --color-t-peak: var(--t-peak);
+  --color-t-soon: var(--t-soon);
+  --color-t-past: var(--t-past);
+  --color-on-peak: var(--on-peak);
 
-  --color-cream-50: #fdfbf8;
-  --color-cream-100: #fbf7f2;
-  --color-cream-200: #f3ebe0;
+  /* The older names the forms and detail screens use, mapped onto the same system:
+     "wine" is the tint (ink), "cream" the grounds, "white" the raised surface. */
+  --color-white: var(--surface);
+  --color-wine-50: var(--well);
+  --color-wine-100: var(--well);
+  --color-wine-200: var(--line);
+  --color-wine-500: var(--focus);
+  --color-wine-600: var(--fg);
+  --color-wine-700: var(--fg);
+  --color-wine-800: var(--fg);
+  --color-wine-900: var(--fg);
 
-  --color-ink-200: #e3ddd6;
-  --color-ink-300: #cfc7be;
-  --color-ink-500: #7c736a;
-  --color-ink-700: #4a433d;
-  --color-ink-900: #221e1b;
+  --color-cream-50: var(--surface);
+  --color-cream-100: var(--ground);
+  --color-cream-200: var(--well);
+
+  --color-ink-200: var(--line);
+  --color-ink-300: var(--fg3);
+  --color-ink-500: var(--fg2);
+  --color-ink-700: var(--fg-soft);
+  --color-ink-900: var(--fg);
+
+  /* Messages (errors, warnings) in the same family. */
+  --color-rose-50: color-mix(in oklab, var(--past) 16%, var(--surface));
+  --color-rose-100: color-mix(in oklab, var(--past) 26%, var(--surface));
+  --color-rose-700: var(--t-past);
+  --color-rose-800: var(--t-past);
+  --color-red-700: var(--t-past);
+  --color-amber-50: color-mix(in oklab, var(--peak) 14%, var(--surface));
+  --color-amber-100: color-mix(in oklab, var(--peak) 22%, var(--surface));
+  --color-amber-800: var(--t-peak);
+  --color-amber-900: var(--t-peak);
 }
 
 @utility pt-safe {
@@ -30,11 +126,30 @@
 @utility pb-safe {
   padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
 }
+/* Extends a small control's tap area to at least 44x44 without changing how it looks. */
+@utility hit {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+}
+@utility tnum {
+  font-variant-numeric: tabular-nums lining-nums;
+}
 
 html,
 body {
-  background: var(--color-cream-100);
-  color: var(--color-ink-900);
+  background: var(--ground);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
 }
@@ -43,4 +158,25 @@ input,
 select,
 textarea {
   font-size: 16px; /* stops iOS Safari zooming into focused fields */
+  caret-color: var(--fg);
+}
+
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
+  appearance: none;
+  display: none;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--peak) 38%, transparent);
+  color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

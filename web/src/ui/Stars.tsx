@@ -10,8 +10,8 @@ export function Stars({ value, size = 'size-4' }: { value: number; size?: string
           <svg key={i} viewBox="0 0 24 24" className={size}>
             <defs>
               <linearGradient id={`s${i}-${fill}`}>
-                <stop offset={fill} stopColor="#B23A48" />
-                <stop offset={fill} stopColor="#E3DDD6" />
+                <stop offset={fill} style={{ stopColor: 'var(--peak)' }} />
+                <stop offset={fill} style={{ stopColor: 'var(--line)' }} />
               </linearGradient>
             </defs>
             <path d={STAR} fill={`url(#s${i}-${fill})`} />
@@ -36,7 +36,7 @@ export function StarInput({ value, onChange }: { value: number; onChange: (v: nu
           className="p-0.5 active:scale-90"
         >
           <svg viewBox="0 0 24 24" className="size-9">
-            <path d={STAR} fill={i <= value ? '#B23A48' : '#E3DDD6'} />
+            <path d={STAR} style={{ fill: i <= value ? 'var(--peak)' : 'var(--line)' }} />
           </svg>
         </button>
       ))}

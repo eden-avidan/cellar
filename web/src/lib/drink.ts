@@ -34,9 +34,18 @@ export function drinkStatus(w: Window, year = new Date().getFullYear()): DrinkSt
 const range = (from: number, to: number | null) => (to != null && to !== from ? `${from}–${to}` : `${from}`);
 
 export const toneClass: Record<DrinkTone, string> = {
-  hold: 'bg-sky-100 text-sky-800',
-  ready: 'bg-emerald-100 text-emerald-800',
-  peak: 'bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-amber-950 font-semibold shadow-sm shadow-amber-500/30',
-  soon: 'bg-amber-100 text-amber-900',
-  past: 'bg-rose-100 text-rose-800',
+  hold: 'bg-hold/20 text-t-hold',
+  ready: 'bg-ready/25 text-t-ready',
+  peak: 'bg-gradient-to-r from-peak-lt via-peak to-peak-lt text-on-peak font-semibold shadow-sm shadow-peak/30',
+  soon: 'bg-soon/22 text-t-soon',
+  past: 'bg-past/25 text-t-past',
+};
+
+/** Status as plain coloured text (list rows). */
+export const toneText: Record<DrinkTone, string> = {
+  hold: 'text-t-hold',
+  ready: 'text-t-ready',
+  peak: 'text-t-peak',
+  soon: 'text-t-soon',
+  past: 'text-t-past',
 };
