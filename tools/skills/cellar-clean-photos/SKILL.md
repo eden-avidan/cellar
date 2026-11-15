@@ -52,9 +52,13 @@ upload as the first photo.
    - a clean product shot: one bottle, label facing front, plain/studio background, no hands or people,
      no watermark, the whole bottle in frame;
    - a different vintage year or a missing edition line (e.g. "KOSHER") is acceptable; note it in the report.
-   Reject old label designs, export labels when the owner's bottle is the local one (or the reverse),
-   lifestyle shots, multi-bottle shots, watermarked images. If nothing qualifies, leave the wine as is and
-   report why. Never upload an image you haven't looked at.
+   Prefer, in order: the exact label; the same design with small differences (vintage, an edition line,
+   text order or wording, capsule colour); then the clearest image. The owner has said a near-match is
+   fine when no exact one exists ("use whatever image you want"), so don't hold a wine back for a small
+   label difference: upload the closest clean shot and name the difference in the report.
+   Still reject: a different wine or cuvée, lifestyle or multi-bottle shots, hands in the frame, heavy
+   watermarks. Prefer a sharp image (source bottle ≥ 600 px tall) over a blurry exact one. If nothing
+   usable exists, leave the wine as is and report why. Never upload an image you haven't looked at.
 
 6. **Upload.** `node .../scripts/put.cjs <wineId> <candidateFile>` per chosen wine. It replaces any older
    clean photo (deleting its files) and keeps the owner's photos after it.
