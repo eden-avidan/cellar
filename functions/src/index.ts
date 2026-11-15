@@ -5,7 +5,6 @@ import { defineSecret, defineString } from 'firebase-functions/params';
 import { initializeApp } from 'firebase-admin/app';
 
 import { analyzeWithClaude } from './claude.js';
-import { findCleanPhoto as runFindCleanPhoto } from './cleanPhoto.js';
 import { checkCaller, isEmulator, parseRequest, type AnalyzeResponse } from './common.js';
 import { mockAnalysis } from './mock.js';
 import { estimatePeak as runEstimatePeak } from './peak.js';
@@ -30,24 +29,6 @@ export const analyzeLabel = onCall(
       return { analysis: mockAnalysis(req.rated.length > 0), model: 'mock-claude', ms: 800 };
     }
     return analyzeWithClaude(req, ANTHROPIC_API_KEY.value(), CLAUDE_MODEL.value(), CLAUDE_EFFORT.value());
-  },
-);
-
-/** Finds a clean product photo of the wine online and puts it first. See cleanPhoto.ts. */
-export const findCleanPhoto = onCall(
-  { secrets: [ANTHROPIC_API_KEY], timeoutSeconds: 300, memory: '1GiB' },
-  async (request) => {
-    checkCaller(request.auth, ALLOWED_EMAILS.value());
-    const { wineId, onlyIfMissing } = (request.data ?? {}) as { wineId?: unknown; onlyIfMissing?: unknown };
-    if (typeof wineId !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(wineId)) {
-      throw new HttpsError('invalid-argument', 'Missing wine id.');
-    }
-    return runFindCleanPhoto(request.auth!.uid, wineId, {
-      apiKey: isEmulator && process.env.AI_MOCK === 'true' ? '' : ANTHROPIC_API_KEY.value(),
-      model: CLAUDE_MODEL.value(),
-      mock: isEmulator && process.env.AI_MOCK === 'true',
-      onlyIfMissing: onlyIfMissing === true,
-    });
   },
 );
 

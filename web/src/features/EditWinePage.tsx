@@ -18,7 +18,7 @@ export function EditWinePage() {
 
 function EditForm({ uid, wine }: { uid: string; wine: Wine }) {
   const navigate = useNavigate();
-  const { id, tastings: _t, photos: _p, scan, cleanPhotoSearch: _s, peakEstimatedAt: _pe, createdAt: _c, updatedAt: _u, ...initial } = wine;
+  const { id, tastings: _t, photos: _p, scan, peakEstimatedAt: _pe, createdAt: _c, updatedAt: _u, ...initial } = wine;
   const [fields, setFields] = useState<WineFields>(initial);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);

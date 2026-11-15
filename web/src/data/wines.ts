@@ -42,18 +42,8 @@ export interface Photo {
   url: string;
   thumbPath: string;
   thumbUrl: string;
-  /** Set on a clean product photo found online: the page it came from. */
+  /** Set on a photo taken from the web (e.g. a clean product shot): the page it came from. */
   source?: string;
-}
-
-/** Outcome of the last online search for a clean bottle photo (written by the findCleanPhoto function). */
-export interface CleanPhotoSearch {
-  status: 'found' | 'none' | 'running';
-  at: string;
-  pageUrl?: string;
-  imageUrl?: string;
-  sameVintage?: 'yes' | 'no' | 'unknown';
-  reason?: string;
 }
 
 /** Everything the user can edit. Optional values are null or '' rather than missing. */
@@ -116,7 +106,6 @@ export interface Wine extends WineFields {
   tastings: Tasting[];
   photos: Photo[];
   scan: StoredScan | null;
-  cleanPhotoSearch: CleanPhotoSearch | null;
   /** Set when a peak was estimated for a wine saved before scans included one. */
   peakEstimatedAt: string | null;
   createdAt: Timestamp | null;
@@ -176,7 +165,6 @@ function fromDoc(id: string, data: Record<string, unknown>): Wine {
     tastings: [],
     photos: [],
     scan: null,
-    cleanPhotoSearch: null,
     peakEstimatedAt: null,
     createdAt: null,
     updatedAt: null,
@@ -284,8 +272,6 @@ function deleteFiles(paths: string[]) {
 
 export function removePhoto(uid: string, wine: Wine, photo: Photo) {
   const patch: Record<string, unknown> = { photos: arrayRemove(photo), updatedAt: serverTimestamp() };
-  // Removing the online photo: remember it, so it isn't searched for again automatically.
-  if (photo.source) patch.cleanPhotoSearch = { status: 'none', at: new Date().toISOString(), reason: 'You removed the online photo.' };
   fire(updateDoc(wineDoc(uid, wine.id), patch), 'remove photo');
   deleteFiles([photo.path, photo.thumbPath]);
 }
