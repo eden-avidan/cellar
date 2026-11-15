@@ -19,8 +19,8 @@ export function App() {
     <>
       <Routes>
         <Route path="/" element={<Navigate to="/cellar" replace />} />
-        <Route path="/cellar" element={<WineListPage list="cellar" />} />
-        <Route path="/wishlist" element={<WineListPage list="wishlist" />} />
+        <Route path="/cellar" element={<WineListPage key="cellar" list="cellar" />} />
+        <Route path="/wishlist" element={<WineListPage key="wishlist" list="wishlist" />} />
         <Route path="/add" element={<AddWinePage />} />
         <Route path="/add/previous" element={<PreviousWinesPage />} />
         <Route path="/wine/:id" element={<WineDetailPage />} />

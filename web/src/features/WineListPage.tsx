@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { signOut } from 'firebase/auth';
 import { useUser } from '../auth/AuthProvider.tsx';
 import { auth } from '../firebase.ts';
 import { averageRating, displayName, useWines, type Wine } from '../data/wines.ts';
 import { drinkStatus } from '../lib/drink.ts';
+import { usePersistentState } from '../lib/usePersistentState.ts';
 import { Link } from 'react-router';
 import { PickPhotosButton } from '../ui/PickPhotosButton.tsx';
 import { PeakBanner } from '../ui/PeakBanner.tsx';
@@ -30,13 +31,20 @@ const sorters: Record<Sort, (a: Wine, b: Wine) => number> = {
 export function WineListPage({ list }: { list: 'cellar' | 'wishlist' }) {
   const user = useUser();
   const { wines, error } = useWines(user.uid);
-  const [showFinished, setShowFinished] = useState(false);
-  const [search, setSearch] = useState('');
-  const [type, setType] = useState<TypeFilter>('all');
-  const [readyOnly, setReadyOnly] = useState(false);
-  const [sort, setSort] = useState<Sort>('newest');
+  // View choices are remembered per list, so leaving (a bottle, the other tab, the app) doesn't reset them.
+  const k = (name: string) => `cellar.view.${list}.${name}`;
+  const isBool = (v: unknown) => typeof v === 'boolean';
+  const [showFinished, setShowFinished] = usePersistentState(k('finished'), false, { valid: isBool });
+  const [search, setSearch] = usePersistentState(k('search'), '', { valid: (v) => typeof v === 'string', session: true });
+  const [type, setType] = usePersistentState<TypeFilter>(k('type'), 'all', { valid: (v) => TYPE_FILTERS.includes(v as TypeFilter) });
+  const [readyOnly, setReadyOnly] = usePersistentState(k('ready'), false, { valid: isBool });
+  const [chosenSort, setSort] = usePersistentState<Sort>(k('sort'), 'newest', { valid: (v) => typeof v === 'string' && v in sorters });
 
   const shownList = list === 'cellar' && showFinished ? 'finished' : list;
+  // Some orders only exist in some views ("Drink soonest" in the cellar, "Taste fit" in the wishlist).
+  // Keep the choice stored, but show "Newest" where it doesn't apply.
+  const available: Sort[] = ['newest', ...(shownList === 'cellar' ? (['drink'] as const) : []), 'rating', 'vintage', ...(list === 'wishlist' ? (['fit'] as const) : [])];
+  const sort: Sort = available.includes(chosenSort) ? chosenSort : 'newest';
 
   const visible = useMemo(() => {
     if (!wines) return [];
