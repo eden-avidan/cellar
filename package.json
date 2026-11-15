@@ -1,0 +1,16 @@
+{
+  "name": "wine-cellar",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "web",
+    "functions"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w web",
+    "emulators": "npm run build -w functions && firebase emulators:start --project demo-wine-cellar --import .emulator-data --export-on-exit",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "deploy": "npm run build && firebase deploy --only hosting,firestore,storage,functions"
+  }
+}

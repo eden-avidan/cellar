@@ -1,0 +1,17 @@
+rules_version = '2';
+
+// Single-owner app: every document lives under users/{uid}, and only that user can touch it.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      match /wines/{wineId} {
+        allow read, delete: if request.auth != null && request.auth.uid == uid;
+        allow create, update: if request.auth != null && request.auth.uid == uid
+          && request.resource.data.list in ['cellar', 'wishlist', 'finished']
+          && request.resource.data.size() < 120;
+      }
+    }
+  }
+}

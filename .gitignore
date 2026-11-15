@@ -1,0 +1,13 @@
+node_modules/
+dist/
+functions/lib/
+.emulator-data/
+*.log
+.env.local
+web/.env
+web/.env.production
+functions/.secret.local
+functions/.env.*
+!functions/.env.local
+.firebase/
+.DS_Store
